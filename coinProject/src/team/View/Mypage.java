@@ -1,5 +1,5 @@
 package team.View;
 
-public class Board {
+public class Mypage {
 
 }

@@ -16,4 +16,6 @@ public class Dao {
 				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java","root","1234");
 			} catch (Exception e) { }
 		}
+		
+		
 }
