@@ -24,7 +24,7 @@ public class Sdao extends Dao {
 		try {
 			ps = con.prepareStatement(sql);
 			
-			ps.executeUpdate();
+			ps.executeUpdate(); 
 			
 			return true;
 		}catch (Exception e) {
