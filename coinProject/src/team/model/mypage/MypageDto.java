@@ -1,5 +1,5 @@
 package team.model.mypage;
 
-public class mypageDto {
+public class MypageDto {
 
 }
