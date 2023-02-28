@@ -17,8 +17,9 @@ drop table if exists coinlist;
 create table coinlist(
 	cNo int auto_increment primary key,		-- 코인 고유번호
     cName varchar(20),						-- 코인 이름
-    cPrice int,								-- 코인 초기가격
-    cAmount int								-- 코인 전체수량
+    cPrice int ,							-- 코인 가격
+    cAmount int	,							-- 코인 전체수량
+    cFirstprice int  						-- 코인 초기가격
 );
 
 -- 구매 테이블
@@ -29,7 +30,9 @@ create table buy (
     bAmount int not null,							-- 구매 수량
     bDate datetime default now(),					-- 구매날짜
     mNo int,										-- 구매한사람(멤버) 고유번호
-    foreign key ( mNo ) references member ( mNo )
+    cNo int,
+    foreign key ( mNo ) references member ( mNo ) ,
+    foreign key ( cNo ) references coinlist ( cNo )
 );
 
 -- 판매 테이블
@@ -40,7 +43,9 @@ create table sell(
     sAmount int not null,							-- 판매 수량
     sDate datetime default now(),					-- 판매날짜
     bNo int,										-- 구매
-    foreign key ( bNo ) references buy ( bNo )
+    cNo int,
+    foreign key ( bNo ) references buy ( bNo ) ,
+    foreign key ( cNo ) references coinlist ( cNo )
 );
 
 drop table if exists account;
@@ -68,3 +73,5 @@ select * from coinlist;
 select * from buy;
 select * from sell;
 select * from account ;
+
+
