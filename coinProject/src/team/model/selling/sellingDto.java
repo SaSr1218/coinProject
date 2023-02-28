@@ -5,9 +5,12 @@ public class sellingDto {
 	// 1. 필드
 	private float profit_rate;
 	private int p_l_amount;
+	private int bNo;
 	private int bPrice;
 	private int bAmount;
-	
+	private int cNo;
+	private String cName;
+	private String sDate;
 	
 	// 2. 생성자
 	public sellingDto() {}
@@ -16,9 +19,23 @@ public class sellingDto {
 		this.profit_rate = profit_rate;
 		this.p_l_amount = p_l_amount;
 	}
-	public sellingDto(int bPrice, int bAmount) {
+	public sellingDto(int bNo , int bPrice, int bAmount , String cName) {
+		this.bNo = bNo;
 		this.bPrice = bPrice;
 		this.bAmount = bAmount;
+		this.cName = cName; 
+	}
+	
+	public sellingDto( int cNo , String cName ) {
+		this.cNo = cNo;
+		this.cName = cName;
+	}
+	
+	public sellingDto( String cName , String sDate , float profit_rate, int p_l_amount) {
+		this.cName = cName;
+		this.sDate = sDate;
+		this.profit_rate = profit_rate;
+		this.p_l_amount = p_l_amount;
 	}
 	
 	
@@ -55,6 +72,48 @@ public class sellingDto {
 	public void setbAmount(int bAmount) {
 		this.bAmount = bAmount;
 	}
+
+	public int getbNo() {
+		return bNo;
+	}
+
+	public void setbNo(int bNo) {
+		this.bNo = bNo;
+	}
+
+	public String getCname() {
+		return cName;
+	}
+
+	public void setCname(String cName) {
+		this.cName = cName;
+	}
+
+	public int getcNo() {
+		return cNo;
+	}
+
+	public void setcNo(int cNo) {
+		this.cNo = cNo;
+	}
+
+	public String getcName() {
+		return cName;
+	}
+
+	public void setcName(String cName) {
+		this.cName = cName;
+	}
+
+	public String getsDate() {
+		return sDate;
+	}
+
+	public void setsDate(String sDate) {
+		this.sDate = sDate;
+	}
+	
+	
 	
 	
 	

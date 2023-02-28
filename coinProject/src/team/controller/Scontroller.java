@@ -14,7 +14,7 @@ public class Scontroller {
 	}
 	
 	
-	public boolean coinListCheck( int cNo ) {
+	public String coinListCheck( int cNo ) {
 		return Sdao.getInstance().coinListCheck(cNo);
 	}
 	
@@ -27,22 +27,25 @@ public class Scontroller {
 	}
 	
 	
-	public boolean sell_coin( int mNo , int bNo , int sPrice , int sAmount) {
-		return Sdao.getInstance().sell_coin(mNo, bNo, sPrice, sAmount );
+	public boolean sell_coin( int mNo , int bNo , int sPrice , int sAmount , int cNo ) {
+		return Sdao.getInstance().sell_coin(mNo, bNo, sPrice, sAmount , cNo);
 	}
 	
 	public int coinCheck( int bNo ) {
 		return Sdao.getInstance().coinCheck(bNo);
 	}
 	
-	public ArrayList<sellingDto> profit_and_loss( int bNo , int mNo ){
-		return Sdao.getInstance().profit_and_loss(bNo, mNo);
+	public ArrayList<sellingDto> profit_and_loss( int mNo ){
+		return Sdao.getInstance().profit_and_loss(mNo);
 	}
 	
-	public ArrayList<sellingDto> own_coin_check( int bNo , int mNo ){
-		return Sdao.getInstance().own_coin_check(bNo, mNo);
+	public ArrayList<sellingDto> own_coin_check( int mNo ){
+		return Sdao.getInstance().own_coin_check(mNo);
 	}
 	
+	public int findcNo( int bNo ) {
+		return Sdao.getInstance().findcNo(bNo);
+	}
 	
 	
 }
