@@ -61,6 +61,4 @@ public class CoinDto {
 	public void setcFirstprice(int cFirstprice) {
 		this.cFirstprice = cFirstprice;
 	}
-
-	
 }

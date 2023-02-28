@@ -103,11 +103,7 @@ public class Mdao extends Dao{
 		return null;
 	}
 	
-	
-	// 5-1. 은행 선택
-	
-	
-	// 5-2. 계좌 등록
+	// 5. 계좌 생성
 	public boolean createAcc( AccountDto aDto ) {
 		
 		String sql = "insert into create_acc( accName, accountNo, accBalance, mNo ) values( ?, ?, ?, ? )";
@@ -160,6 +156,7 @@ public class Mdao extends Dao{
 		
 		return 2;
 	}
+
 	
 	// 7. 회원 탈퇴
 	public boolean leave( String mpw ) {

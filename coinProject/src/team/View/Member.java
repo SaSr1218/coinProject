@@ -7,6 +7,7 @@ import team.model.member.DTO.AccountDto;
 import team.model.member.DTO.Accountextends.AccountBitsum;
 import team.model.member.DTO.Accountextends.AccountCoinone;
 import team.model.member.DTO.Accountextends.AccountUpbit;
+import team.model.member.DTO.CoinDto;
 
 public class Member {
 	
@@ -15,7 +16,7 @@ public class Member {
 	
 	// 싱글톤 적용
 	private static Member member = new Member();
-	private void Member() {}
+	private Member() {}
 	public static Member getInstance() { return member; }
 	
 	// 메소드 영역
@@ -137,7 +138,6 @@ public class Member {
 	// 5. 계좌생성
 	public void createAcc() throws Exception {
 		
-		AccountDto acc = new AccountDto();
 		AccountUpbit acc1 = new AccountUpbit();
 		AccountBitsum acc2 = new AccountBitsum();
 		AccountCoinone acc3 = new AccountCoinone();
@@ -179,7 +179,7 @@ public class Member {
 			System.out.println("[알림]" + cName + "정상 발행 완료");
 		}
 		else { System.out.println("[알림] 이미 발행된 코인입니다." ); }
-		
+
 	}
 	
 	// 7. 회원탈퇴

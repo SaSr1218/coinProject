@@ -16,12 +16,6 @@ public class Mcontroller {
 		
 		return true;
 	}
-	
-	// 2. 계좌 입금
-	
-	
-	// 3. 계좌 출금
-	
 
 	private int logSession = 0;
 	
@@ -52,6 +46,12 @@ public class Mcontroller {
 	
 	public String searchID( String mName, String mEmail ) {
 		return Mdao.getInstance().searchID(mName, mEmail);
+	}
+
+	// 4. 코인 등록
+	public boolean regiCoin( CoinDto cDto  ) {
+		return false;
+
 	}
 	
 	// 4. 비밀번호 찾기
