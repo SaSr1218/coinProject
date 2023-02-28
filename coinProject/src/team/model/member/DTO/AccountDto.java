@@ -1,4 +1,4 @@
-package team.model.member;
+package team.model.member.DTO;
 
 public class AccountDto {
 	

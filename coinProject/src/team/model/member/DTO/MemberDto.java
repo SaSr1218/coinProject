@@ -1,4 +1,4 @@
-package team.model.member;
+package team.model.member.DTO;
 
 public class MemberDto {
 
@@ -6,6 +6,7 @@ public class MemberDto {
 	private int mNo;
 	private String mId;
 	private String mPw;
+	private String mName;
 	private String mPhone;
 	private String mEmail;
 	
@@ -15,11 +16,12 @@ public class MemberDto {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public MemberDto(int mNo, String mId, String mPw, String mPhone, String mEmail) {
+	public MemberDto(int mNo, String mId, String mPw, String mName, String mPhone, String mEmail) {
 		super();
 		this.mNo = mNo;
 		this.mId = mId;
 		this.mPw = mPw;
+		this.mName = mName;
 		this.mPhone = mPhone;
 		this.mEmail = mEmail;
 	}
@@ -27,8 +29,8 @@ public class MemberDto {
 	// 메소드 영역
 	@Override
 	public String toString() {
-		return "MemberDto [mNo=" + mNo + ", mId=" + mId + ", mPw=" + mPw + ", mPhone=" + mPhone + ", mEmail=" + mEmail
-				+ "]";
+		return "MemberDto [mNo=" + mNo + ", mId=" + mId + ", mPw=" + mPw + ", mName=" + mName + ", mPhone=" + mPhone
+				+ ", mEmail=" + mEmail + "]";
 	}
 
 	public int getmNo() {
@@ -55,6 +57,14 @@ public class MemberDto {
 		this.mPw = mPw;
 	}
 
+	public String getmName() {
+		return mName;
+	}
+
+	public void setmName(String mName) {
+		this.mName = mName;
+	}
+	
 	public String getmPhone() {
 		return mPhone;
 	}
