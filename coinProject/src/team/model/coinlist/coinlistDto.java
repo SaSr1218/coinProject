@@ -6,13 +6,25 @@ public class coinlistDto {
 	private String cName;
 	private int cPrice;
 	private int cAmount;
+	private int cFirstPrice;
 	
-	public coinlistDto(int cNo, String cName, int cPrice, int cAmount) {
+	public coinlistDto() {}
+
+	public coinlistDto(int cNo, String cName, int cPrice, int cAmount, int cFirstPrice) {
 		super();
 		this.cNo = cNo;
 		this.cName = cName;
 		this.cPrice = cPrice;
 		this.cAmount = cAmount;
+		this.cFirstPrice = cFirstPrice;
+	}
+	
+	public int getcFirstPrice() {
+		return cFirstPrice;
+	}
+
+	public void setcFirstPrice(int cFirstPrice) {
+		this.cFirstPrice = cFirstPrice;
 	}
 
 	public int getcNo() {
