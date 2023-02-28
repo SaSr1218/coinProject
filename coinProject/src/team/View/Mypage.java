@@ -15,7 +15,6 @@ public class Mypage {
 	// 1. 계좌메인화면
 	public void mypage() {
 		while(true) {
-			
 			try {
 			System.out.println("1. 계좌확인 2. 입금 3. 출금"); int ach = scanner.nextInt();
 			if ( ach == 1 ) { checkAccount(); }
