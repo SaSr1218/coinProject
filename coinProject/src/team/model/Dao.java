@@ -11,9 +11,11 @@ public class Dao {
 	protected PreparedStatement ps;
 	protected ResultSet rs;
 	
-		public Dao() {
-			try {
-				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","1234");
-			} catch (Exception e) { }
-		}
+
+	public Dao() {
+		try {
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","1234");
+		} catch (Exception e) { }
+	}
+		
 }
