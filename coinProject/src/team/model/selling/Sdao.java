@@ -21,11 +21,9 @@ public class Sdao extends Dao {
 		
 		try {
 			ps = con.prepareStatement(sql);
-			
 			ps.setInt(1, cNo);
-			
 			rs = ps.executeQuery();
-			
+		
 			if( rs.next() ) { return true; }
 			
 		}catch (Exception e) {
