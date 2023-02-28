@@ -1,34 +1,31 @@
 package team.model.member.DTO;
 
+import java.util.Random;
+
 public class AccountDto {
 	
 	// 필드 영역
-	private int accNo;
-	private String accName;
-	private String Account;
-	private int balance;
-	private int mNo;
+	protected int accNo;
+	protected String accName;
+	protected String accountNo;
+	protected int accBalance;
+	protected int mNo;
 	
 	// 생성자 영역
-	public AccountDto() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	
-	public AccountDto(int accNo, String accName, String account, int balance, int mNo) {
-		super();
+	public AccountDto() {}
+
+	public AccountDto(int accNo, String accName, String accountNo, int accBalance, int mNo) {
 		this.accNo = accNo;
 		this.accName = accName;
-		Account = account;
-		this.balance = balance;
+		this.accountNo = accountNo;
+		this.accBalance = accBalance;
 		this.mNo = mNo;
 	}
-	
-	// 메소드 영역
+
 	@Override
 	public String toString() {
-		return "AccountDto [accNo=" + accNo + ", accName=" + accName + ", Account=" + Account + ", balance=" + balance
-				+ ", mNo=" + mNo + "]";
+		return "AccountDto [accNo=" + accNo + ", accName=" + accName + ", accountNo=" + accountNo + ", accBalance="
+				+ accBalance + ", mNo=" + mNo + "]";
 	}
 
 	public int getAccNo() {
@@ -46,22 +43,26 @@ public class AccountDto {
 	public void setAccName(String accName) {
 		this.accName = accName;
 	}
-
-	public String getAccount() {
-		return Account;
+	
+	public String getAccountNo() {
+		return accountNo;
 	}
 
-	public void setAccount(String account) {
-		Account = account;
+
+	public void setAccountNo(String accountNo) {
+		this.accountNo = accountNo;
 	}
 
-	public int getBalance() {
-		return balance;
+
+	public int getAccBalance() {
+		return accBalance;
 	}
 
-	public void setBalance(int balance) {
-		this.balance = balance;
+
+	public void setAccBalance(int accBalance) {
+		this.accBalance = accBalance;
 	}
+
 
 	public int getmNo() {
 		return mNo;
@@ -70,4 +71,24 @@ public class AccountDto {
 	public void setmNo(int mNo) {
 		this.mNo = mNo;
 	}
+	
+	public String createAccount( ) {
+		
+		int acNo1 = creatNo(); 	int acNo2 = creatNo();
+		if( acNo2 < 100000 ) { acNo2 *= 10; }
+		
+		this.accountNo = ("은행코드" + "-" + acNo1 + "-" + acNo2);
+		return accountNo;
+	}
+	
+	public int creatNo() {
+		Random random = new Random();
+		int result = random.nextInt(899)+100;
+		return result;
+	}
+
+	public void complete( AccountDto dto ) {
+		System.out.println("[알림] 계좌를 만들어주셔서 감사합니다.");
+	}
+	
 }

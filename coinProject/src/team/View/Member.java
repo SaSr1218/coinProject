@@ -3,6 +3,10 @@ package team.View;
 import java.util.Scanner;
 
 import team.controller.Mcontroller;
+import team.model.member.DTO.AccountDto;
+import team.model.member.DTO.Accountextends.AccountBitsum;
+import team.model.member.DTO.Accountextends.AccountCoinone;
+import team.model.member.DTO.Accountextends.AccountUpbit;
 
 public class Member {
 	
@@ -23,14 +27,10 @@ public class Member {
 			try{
 			int choice = scanner.nextInt();
 			
-			if( choice == 1 ) {
-				signUp();
-			}
-			else if( choice == 2) {
-				login();
-			}
-			else if( choice == 3 ) { }
-			else if( choice == 4 ) { }
+			if( choice == 1 ) { signUp(); }
+			else if( choice == 2) { login(); }
+			else if( choice == 3 ) { searchID(); }
+			else if( choice == 4 ) { searchPW(); }
 			else { System.out.println("[알림] 번호를 다시 입력해주세요."); }
 			}
 			catch(Exception e){ System.out.println("예외발생: " + e);}
@@ -58,51 +58,136 @@ public class Member {
 	
 	// 2. 로그인
 	public void login() throws Exception {
+
 		System.out.println("-------------------로그인 페이지-------------------");
 		System.out.print("아이디: ");		String mId = scanner.next();
 		System.out.print("비밀번호: ");		String mpw = scanner.next();
-		
+			
 		boolean result = Mcontroller.getInstance().login(mId, mpw);
-		
-		System.out.println( result );
-		
+
 		if( result ) {
 			System.out.println("[알림] 로그인 성공");
+			loginIndex();
+		}
+		else { System.out.println("[알림] 로그인 실패"); }
+	}
+	
+	public void loginIndex() throws Exception{
+		while(true) {
 			System.out.println("[메뉴] 1.계좌생성, 2.코인확인, 3.계좌확인, 4.로그아웃 5.회원탈퇴 6.코인등록[관리자용]");
 			int choice = scanner.nextInt();
 			
 			if( choice == 1 ) { createAcc(); }
 			else if( choice == 2 ) { } 
 			else if( choice == 3 ) { } 
-			else if( choice == 4 ) {  } 
+			else if( choice == 4 ) { 
+				Mcontroller.getInstance().setLogSession(0);
+				System.out.println("[알림] 정상적으로 로그아웃되었습니다.");
+				break;
+			} 
 			else if( choice == 5 ) { leave(); } 
 			else if( choice == 6 ) { regiCoin(); }
 		}
-		else { System.out.println("[알림] 로그인 실패"); }
 	}
 	
-	// 3. 계좌생성
+	// 3. 아이디 찾기
+	public void searchID()throws Exception{
+		System.out.println("-------------------아이디 찾기-------------------");
+		System.out.print("[선택] 1.핸드폰으로 아이디찾기 2.이메일로 아이디찾기");
+		int choice = scanner.nextInt();
+		
+		if( choice == 1) {
+			System.out.print("번호 입력: ");	String mPhone = scanner.next();
+			
+			if( Mcontroller.getInstance().searchID(mPhone) == null ) {
+				System.out.println("[알림] 번호를 다시 확인해주세요.");
+			}
+			else {
+				System.out.println("아이디: " + Mcontroller.getInstance().searchID(mPhone));
+			}	
+		}
+		
+		else if( choice == 2) {
+			System.out.print("이름 입력: ");	String mName = scanner.next();
+			System.out.print("이메일 입력: ");	String mEmail = scanner.next();
+			
+			if( Mcontroller.getInstance().searchID(mName, mEmail) == null ) {
+				System.out.println("[알림] 입력하신 정보를 다시 확인해주세요.");
+			}
+			else {
+				System.out.println("아이디: " + Mcontroller.getInstance().searchID(mName, mEmail));
+			}
+		}
+	}
+	
+	// 4. 비밀번호 찾기
+	public void searchPW() throws Exception{
+		System.out.println("-------------------비밀번호 찾기-------------------");
+		System.out.print("아이디 입력: ");	String mId = scanner.next();
+		System.out.print("번호 입력: ");	String mPhone = scanner.next();
+		
+		if( Mcontroller.getInstance().searchPW(mId, mPhone) == null ) {
+			System.out.println("[알림] 입력하신 정보를 다시 확인해주세요.");
+		}
+		else {
+			System.out.println("비밀번호: " + Mcontroller.getInstance().searchPW(mId, mPhone));
+		}
+	}
+	
+	// 5. 계좌생성
 	public void createAcc() throws Exception {
+		
+		AccountDto acc = new AccountDto();
+		AccountUpbit acc1 = new AccountUpbit();
+		AccountBitsum acc2 = new AccountBitsum();
+		AccountCoinone acc3 = new AccountCoinone();
+		
+		boolean result = true;
+		
 		System.out.println("-------------------계좌생성 페이지-------------------");
-		System.out.print("이름: ");		String accName = scanner.next();
-		System.out.print("계좌번호: ");		String Account = scanner.next();
-		System.out.print("계좌잔고: ");		int balance = scanner.nextInt();
+		System.out.print("[계좌선택] 1.업비트 2.빗썸 3.코인원");		int choice = scanner.nextInt();
 		
-		boolean result = Mcontroller.getInstance().createAcc(accName,Account,balance);
-		
+		if( choice == 1 ) {
+			String accName = "업비트";
+			String accountNo = acc1.createAccount();
+			result = Mcontroller.getInstance().createAcc(accName,accountNo,0);
+			if( result ) { acc1.complete(); }
+		}
+		else if( choice == 2 ) {
+			String accName = "빗썸";
+			String accountNo = acc2.createAccount();
+			result = Mcontroller.getInstance().createAcc(accName,accountNo,0);
+			if( result ) { acc2.complete(); }
+		}
+		else if( choice == 3 ) {
+			String accName = "코인원";
+			String accountNo = acc3.createAccount();
+			result = Mcontroller.getInstance().createAcc(accName,accountNo,0);
+			if( result ) { acc3.complete(); }
+		}
 	}
-	
-	// 4. 코인등록
+		
+	// 6. 코인등록
 	public void regiCoin() throws Exception {
 		System.out.println("-------------------관리자용 페이지[코인 등록]-------------------");
-		System.out.println("코인명: ");	String cName = scanner.next();
-		System.out.println("발행량: ");	int cAmount = scanner.nextInt();
-		System.out.println("발행가격: ");	int cPrice = scanner.nextInt();
+		System.out.print("코인명: ");		String cName = scanner.next();
+		System.out.print("발행량: ");		int cAmount = scanner.nextInt();
+		System.out.print("발행가격: ");		int cPrice = scanner.nextInt();
+		System.out.print("초기가격: ");		int cFirstprice = scanner.nextInt();
+		
+		if( Mcontroller.getInstance().regiCoin(cName, cAmount, cPrice, cFirstprice) == 1 ) {
+			System.out.println("[알림]" + cName + "정상 발행 완료");
+		}
+		else { System.out.println("[알림] 이미 발행된 코인입니다." ); }
+		
 	}
 	
-	// 5. 회원탈퇴
+	// 7. 회원탈퇴
 	public void leave() throws Exception {
 		System.out.println("-------------------회원탈퇴 페이지-------------------");
 		System.out.print("비밀번호: ");		String mpw = scanner.next();
+		
+		if( Mcontroller.getInstance().leave(mpw) ) { System.out.println("[알림] 회원 탈퇴 정상 완료");}
+		else { System.out.println("[알림] 비밀번호가 다릅니다."); }
 	}
 }

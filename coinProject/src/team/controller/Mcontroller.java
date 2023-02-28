@@ -29,9 +29,11 @@ public class Mcontroller {
 	// 1. 회원가입
 	public int signUp( String mId, String mPw, String mName, String mPhone, String mEmail ) {
 		
+		int result = Mdao.getInstance().idCheck(mId);
+		
 		// 기능1: 유효성 검사 (1: 아이디 중복 x , 2: 아이디 중복 o, 3: 회원가입 미처리)
-		if( Mdao.getInstance().idCheck(mId) == 2) { return 2; }
-		else if( Mdao.getInstance().idCheck(mId) == 3){ return 3; }
+		if( result == 2) { return 2; }
+		else if( result == 3){ return 3; }
 		MemberDto mDto = new MemberDto(0, mId, mPw, mName, mPhone, mEmail);
 		return Mdao.getInstance().signUp(mDto);
 	}
@@ -43,23 +45,50 @@ public class Mcontroller {
 		else { logSession = result; return true;  }
 	}
 	
-	// 3. 계좌 등록
-	public boolean createAcc( String accName, String Account, int balance ) {
-		return false;
+	// 3. 아이디 찾기
+	public String searchID( String mPhone ) {
+		return Mdao.getInstance().searchID(mPhone);
 	}
 	
-	// 4. 코인 등록
-	public boolean regiCoin( CoinDto cDto ) {
-		return false;
+	public String searchID( String mName, String mEmail ) {
+		return Mdao.getInstance().searchID(mName, mEmail);
 	}
 	
-	// 5. 회원 탈퇴
+	// 4. 비밀번호 찾기
+	public String searchPW( String mId, String mPhone ) {
+		return Mdao.getInstance().searchPW(mId, mPhone);
+	}
+	
+	
+	// 5. 계좌 등록
+	public boolean createAcc( String accName, String accountNo, int accBalance ) {
+		AccountDto aDto = new AccountDto( 0, accName, accountNo, accBalance, logSession );
+		return Mdao.getInstance().createAcc(aDto);
+	}
+	
+	// 6. 코인 등록
+	public int regiCoin(String cName, int cAmount, int cPrice, int cFirstprice) {
+		
+		int result = Mdao.getInstance().coinCheck(cName);
+		
+		if( result == 2 ) { return 2; }
+		else if( result == 3 ) { return 3;}
+		CoinDto cDto = new CoinDto(0, cName, cPrice, cAmount, cFirstprice);
+		return Mdao.getInstance().regiCoin(cDto);
+	}
+	
+	// 7. 회원 탈퇴
 	public boolean leave( String mpw ) {
-		return false;
+		return Mdao.getInstance().leave(mpw);
 	}
 	
 	public int getLogSession() {
 		return logSession;
 	}
+	
+	public void setLogSession(int logSession) {
+		this.logSession = logSession;
+	}
+	
 
 }
