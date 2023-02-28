@@ -9,6 +9,7 @@ create table member (
 	mNo int auto_increment primary key,  	-- 멤버 고유키
     mId varchar(20) unique,					-- 멤버 아이디 ( 계정 )
     mPw varchar(20),						-- 멤버 패스워드
+    mName varchar(20) ,						-- 멤버 이름
     mPhone varchar(20),						-- 멤버 휴대전화
     mEmail varchar(20)						-- 이메일
 );
@@ -16,7 +17,7 @@ create table member (
 drop table if exists coinlist;
 create table coinlist(
 	cNo int auto_increment primary key,		-- 코인 고유번호
-    cName varchar(20),						-- 코인 이름
+    cName varchar(20) unique,				-- 코인 이름
     cPrice int ,							-- 코인 가격
     cAmount int	,							-- 코인 전체수량
     cFirstprice int  						-- 코인 초기가격
