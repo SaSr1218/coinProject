@@ -49,7 +49,7 @@ public class Mcontroller {
 	}
 	
 	// 4. 코인 등록
-	public boolean regiCoin( CoinDto cDto ) {
+	public boolean regiCoin( CoinDto cDto  ) {
 		return false;
 	}
 	

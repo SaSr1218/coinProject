@@ -7,18 +7,20 @@ public class CoinDto {
 	private String cName;
 	private int cPrice;
 	private int cAmount;
+	private int cFirstprice;
 	
 	// 생성자 영역
 	public CoinDto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public CoinDto(int cNo, String cName, int cPrice, int cAmount) {
+	public CoinDto(int cNo, String cName, int cPrice, int cAmount, int cFirstprice) {
 		super();
 		this.cNo = cNo;
 		this.cName = cName;
 		this.cPrice = cPrice;
 		this.cAmount = cAmount;
+		this.cFirstprice = cFirstprice;
 	}
 	
 	// 메소드 영역
@@ -50,8 +52,11 @@ public class CoinDto {
 	public void setcAmount(int cAmount) {
 		this.cAmount = cAmount;
 	}
-	
-	
-	
-	
+	public int getcFirstprice() {
+		return cFirstprice;
+	}
+	public void setcFirstprice(int cFirstprice) {
+		this.cFirstprice = cFirstprice;
+	}
+
 }

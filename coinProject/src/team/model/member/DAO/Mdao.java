@@ -82,10 +82,24 @@ public class Mdao extends Dao{
 		return false;
 	}
 	
+	// 4-1. 코인 이름 중복 체크
+	public int coincheck( String cName ) {
+		String sql = "select * from coinlist where cName = ?";
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setString(1, cName);
+			rs = ps.executeQuery();
+			if( rs.next() ) { return 2; }
+			else { return 1; }
+		} catch(Exception e) { System.out.println("예외발생: " + e);}
+		return 3;
+	}
+	
+	
 	// 4. 코인 등록
 	public boolean regiCoin( CoinDto cDto ) {
 		
-		String sql = "insert into coinlist( cName, cPrice, cAmount ) values( ?, ?, ? )";
+		String sql = "insert into coinlist( cName, cPrice, cAmount, cFirstprice ) values( ?, ?, ?, ? )";
 		
 		try {
 			ps = con.prepareStatement(sql);
@@ -93,6 +107,7 @@ public class Mdao extends Dao{
 			ps.setString(1, cDto.getcName());
 			ps.setInt(2, cDto.getcPrice());
 			ps.setInt(3, cDto.getcAmount());
+			ps.setInt(4, cDto.getcFirstprice());
 			ps.executeUpdate();
 	
 			return true;

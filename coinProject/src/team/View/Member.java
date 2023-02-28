@@ -3,6 +3,7 @@ package team.View;
 import java.util.Scanner;
 
 import team.controller.Mcontroller;
+import team.model.member.DTO.CoinDto;
 
 public class Member {
 	
@@ -98,6 +99,12 @@ public class Member {
 		System.out.println("코인명: ");	String cName = scanner.next();
 		System.out.println("발행량: ");	int cAmount = scanner.nextInt();
 		System.out.println("발행가격: ");	int cPrice = scanner.nextInt();
+		System.out.println("초기가격: ");	int cFirstprice = scanner.nextInt();
+		
+		CoinDto dto = new CoinDto( 0, cName, cAmount, cPrice, cFirstprice );
+		if(Mcontroller.getInstance().regiCoin(dto)) {
+			System.out.println("[알림] 정상적으로 발행되었습니다.");
+		}
 	}
 	
 	// 5. 회원탈퇴
