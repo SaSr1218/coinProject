@@ -19,10 +19,14 @@ public class Sdao extends Dao {
 	// 매수 - 김성봉
 	public boolean buy_coin( int mNo , int bPrice , int bAmount ) {
 		
-		String sql = "insert into buy ( bprice , bAmount ,  mNo ) values ( 1 , 2 , 1) ;";
+		String sql = "insert into buy ( bprice , bAmount ,  mNo ) values ( ? , ? , ? ) ;";
 		
 		try {
 			ps = con.prepareStatement(sql);
+			
+			ps.setInt(1, mNo);
+			ps.setInt(2, bPrice);
+			ps.setInt(3, bAmount);
 			
 			ps.executeUpdate(); 
 			
