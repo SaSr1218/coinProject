@@ -52,9 +52,10 @@ public class Selling implements Color {
 			System.out.println("매수할 갯수를 선택해주세요.");
 			int bAmount = scanner.nextInt();
 			
-			int loginSession = 1; 
 			
-			boolean result2 = Scontroller.getInstance().buy_coin( loginSession, bPrice, bAmount , cNo );
+			
+			boolean result2 = Scontroller.getInstance().buy_coin( 
+					Mcontroller.getInstance().getLogSession(), bPrice, bAmount , cNo );
 			
 			if( result2 ) { System.out.println("매수가 완료되었습니다. 매수금액 : "+ BLUE + bPrice +"원"+ RESET );}
 			else { System.out.println("매수에 실패했습니다.");}
@@ -78,14 +79,15 @@ public class Selling implements Color {
 		System.out.println("매도할 갯수를 선턱해주세요.");
 		int sAmount = scanner.nextInt();
 		
-		int loginSession = 1;
+		
 		// 1. 유효성 검사
 			// 1. 구매한 코인의 갯수보다 많으면 불가능
 		int count = Scontroller.getInstance().coinCheck(bNo);
 		if( sAmount > count ) { System.out.println( RED + "구매수량을 초과하여 판매할 수 없습니다." + RESET );}
 		
 		
-		boolean result = Scontroller.getInstance().sell_coin( loginSession , bNo, sPrice , sAmount);
+		boolean result = Scontroller.getInstance().sell_coin( 
+				Mcontroller.getInstance().getLogSession() , bNo, sPrice , sAmount);
 	}
 	
 	
