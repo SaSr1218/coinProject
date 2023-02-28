@@ -14,17 +14,65 @@ public class Sdao extends Dao {
 	}
 	
 	
-	// 매수 - 김성봉
-	public boolean buy_coin( int mNo , int bPrice , int bAmount ) {
+	// 코인 목록 확인 - 김성봉
+	public boolean coinListCheck( int cNo ) {
 		
-		String sql = "insert into buy ( bprice , bAmount ,  mNo ) values ( ? , ? , ? ) ;";
+		String sql = "select * from coinlist where cNo = ? ";
 		
 		try {
 			ps = con.prepareStatement(sql);
 			
-			ps.setInt(1, mNo);
-			ps.setInt(2, bPrice);
-			ps.setInt(3, bAmount);
+			ps.setInt(1, cNo);
+			
+			rs = ps.executeQuery();
+			
+			if( rs.next() ) { return true; }
+			
+		}catch (Exception e) {
+			System.out.println("DB 에러 : " + e );
+		}
+		
+		
+		
+		return false;
+	}
+	
+	
+	// 코인 금액 가져오기 - 김성봉
+	public int getCoinPrice( int cNo ) {
+		
+		String sql = "select * from coinlist where cno = ?";
+		
+		try {
+			ps = con.prepareStatement(sql);
+			
+			ps.setInt(1, cNo);
+			
+			rs = ps.executeQuery();
+			
+			if( rs.next() ) { return rs.getInt(3); }
+			
+		}catch (Exception e) {
+			System.out.println("DB 에러 : " + e );
+		}
+		
+		
+		return 0;
+	}
+	
+	// 매수 - 김성봉
+	public boolean buy_coin( int mNo , int bPrice , int bAmount , int cNo ) {
+		
+		String sql = "insert into buy ( bprice , bAmount ,  mNo , cNo ) values ( ? , ? , ? , ? ) ;";
+		
+		
+		try {
+			ps = con.prepareStatement(sql);
+			
+			ps.setInt(1, bPrice);
+			ps.setInt(2, bAmount);
+			ps.setInt(3, mNo);
+			ps.setInt(4, cNo);
 			
 			ps.executeUpdate(); 
 			
@@ -42,7 +90,7 @@ public class Sdao extends Dao {
 	// 매도 - 김성봉
 	public boolean sell_coin( int mNo , int bNo , int sPrice , int sAmount ) {
 		
-		String sql = "insert into sell ( sPrice , sAmount , bNo ) values ( ? , ? , ?)";
+		String sql = "insert into sell ( sPrice , sAmount , bNo , cNo ) values ( ? , ? , ? , ? )";
 		
 		try {
 			ps = con.prepareStatement(sql);
@@ -63,7 +111,39 @@ public class Sdao extends Dao {
 	}
 	
 	
-	// 보유코인 확인 - 김성봉
+	// 전체 보유 코인 확인 - 김성봉
+	public ArrayList<sellingDto> own_coin_check( int bNo , int mNo ) {
+		
+		ArrayList<sellingDto> own_coinlist = new ArrayList<>(); 
+		
+		String sql = "select * from buy where bNo = ? and mNo = ?";
+		
+		try {
+			ps = con.prepareStatement(sql);
+			
+			ps.setInt(1, bNo);
+			ps.setInt(2, mNo);
+			
+			rs = ps.executeQuery();
+			
+			while ( rs.next() ) {
+				
+				sellingDto dto = new sellingDto( rs.getInt(2), rs.getInt(3) );
+				
+				own_coinlist.add(dto);
+			}
+			
+			return own_coinlist;
+			
+		}catch (Exception e) {
+			System.out.println("DB 에러 : " + e );
+		}
+		
+		
+		return null;
+	}
+	
+	// 보유코인갯수확인 - 김성봉
 	public int coinCheck( int bNo ) {
 		
 		String sql = "select * from buy where bNo = ?";
@@ -104,7 +184,7 @@ public class Sdao extends Dao {
 			rs = ps.executeQuery();
 			
 			while( rs.next() ) {
-				sellingDto dto = new sellingDto(rs.getInt(3), rs.getInt(4));
+				sellingDto dto = new sellingDto(rs.getFloat(3), rs.getInt(4));
 				
 				report.add(dto);
 			}
@@ -116,6 +196,8 @@ public class Sdao extends Dao {
 		return report;
 		
 	}
+	
+	
 	
 	
 	
