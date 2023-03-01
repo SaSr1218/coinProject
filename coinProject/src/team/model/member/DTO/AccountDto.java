@@ -87,7 +87,7 @@ public class AccountDto {
 		return result;
 	}
 
-	public void complete( AccountDto dto ) {
+	public void complete( ) {
 		System.out.println("[알림] 계좌를 만들어주셔서 감사합니다.");
 	}
 	
