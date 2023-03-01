@@ -20,7 +20,7 @@ public class Member {
 	public static Member getInstance() { return member; }
 	
 	// 메소드 영역
-	// 인덱스
+	// 0. 인덱스
 	public void index() {
 		while(true) {
 			System.out.println("-------------------EZ 코인 거래소-------------------");
@@ -68,14 +68,16 @@ public class Member {
 
 		if( result ) {
 			System.out.println("[알림] 로그인 성공");
-			loginIndex();
+			if( Mcontroller.getInstance().adminCoin() ) { loginIndex( mId ); }
+			else { loginIndex(); }
 		}
 		else { System.out.println("[알림] 로그인 실패"); }
 	}
 	
+	// 2-1. 로그인 후 메뉴 출력 (일반 회원)
 	public void loginIndex() throws Exception{
 		while(true) {
-			System.out.println("[메뉴] 1.계좌생성, 2.코인확인, 3.계좌확인, 4.로그아웃 5.회원탈퇴 6.코인등록[관리자용]");
+			System.out.print("[메뉴] 1.계좌생성, 2.코인확인, 3.계좌확인, 4.로그아웃 5.회원탈퇴");
 			int choice = scanner.nextInt();
 			
 			if( choice == 1 ) { createAcc(); }
@@ -86,11 +88,29 @@ public class Member {
 				System.out.println("[알림] 정상적으로 로그아웃되었습니다.");
 				break;
 			} 
-			else if( choice == 5 ) { leave(); } 
-			else if( choice == 6 ) { regiCoin(); }
+			else if( choice == 5 ) {  if(leave()) { break; }; } 
 		}
 	}
 	
+	// 2-1. 로그인 후 메뉴 출력 (관리자) - 오버로딩 적용
+	public void loginIndex(String admin) throws Exception{
+		while(true) {
+			System.out.print("[메뉴] 1.계좌생성, 2.코인확인, 3.계좌확인, 4.로그아웃 5.회원탈퇴 6.코인등록[관리자용]");
+			int choice = scanner.nextInt();
+			
+			if( choice == 1 ) { createAcc(); }
+			else if( choice == 2 ) { } 
+			else if( choice == 3 ) { } 
+			else if( choice == 4 ) { 
+				Mcontroller.getInstance().setLogSession(0);
+				System.out.println("[알림] 정상적으로 로그아웃되었습니다.");
+				break;
+			} 
+			else if( choice == 5 ) { if(leave()) { break; } } 
+			else if( choice == 6 ) { regiCoin(); }
+		}
+	}
+
 	// 3. 아이디 찾기
 	public void searchID()throws Exception{
 		System.out.println("-------------------아이디 찾기-------------------");
@@ -148,20 +168,21 @@ public class Member {
 		System.out.print("[계좌선택] 1.업비트 2.빗썸 3.코인원");		int choice = scanner.nextInt();
 		
 		if( choice == 1 ) {
-			String accName = "업비트";
-			String accountNo = acc1.createAccount();
+			String accName = "업비트";		String accountNo = acc1.createAccount();
+			System.out.println("[생성 계좌 정보] 계좌은행:"  + accName + " 계좌번호:" + accountNo );
 			result = Mcontroller.getInstance().createAcc(accName,accountNo,0);
+			
 			if( result ) { acc1.complete(); }
 		}
 		else if( choice == 2 ) {
-			String accName = "빗썸";
-			String accountNo = acc2.createAccount();
+			String accName = "빗썸";		String accountNo = acc2.createAccount();
+			System.out.println("[생성 계좌 정보] 계좌은행:"  + accName + " 계좌번호:" + accountNo );
 			result = Mcontroller.getInstance().createAcc(accName,accountNo,0);
 			if( result ) { acc2.complete(); }
 		}
 		else if( choice == 3 ) {
-			String accName = "코인원";
-			String accountNo = acc3.createAccount();
+			String accName = "코인원";		String accountNo = acc3.createAccount();
+			System.out.println("[생성 계좌 정보] 계좌은행:"  + accName + " 계좌번호:" + accountNo );
 			result = Mcontroller.getInstance().createAcc(accName,accountNo,0);
 			if( result ) { acc3.complete(); }
 		}
@@ -179,15 +200,14 @@ public class Member {
 			System.out.println("[알림]" + cName + "정상 발행 완료");
 		}
 		else { System.out.println("[알림] 이미 발행된 코인입니다." ); }
-
 	}
 	
 	// 7. 회원탈퇴
-	public void leave() throws Exception {
+	public boolean leave() throws Exception {
 		System.out.println("-------------------회원탈퇴 페이지-------------------");
 		System.out.print("비밀번호: ");		String mpw = scanner.next();
 		
-		if( Mcontroller.getInstance().leave(mpw) ) { System.out.println("[알림] 회원 탈퇴 정상 완료");}
-		else { System.out.println("[알림] 비밀번호가 다릅니다."); }
+		if( Mcontroller.getInstance().leave(mpw) ) { System.out.println("[알림] 회원 탈퇴 정상 완료"); return true;}
+		else { System.out.println("[알림] 비밀번호가 다릅니다."); return false; }
 	}
 }

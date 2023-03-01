@@ -10,12 +10,6 @@ public class Mcontroller {
 	private static Mcontroller mController = new Mcontroller();
 	private Mcontroller() { }
 	public static Mcontroller getInstance() { return mController; }
-	
-	// 1. 계좌정보 호출(계좌번호, 계좌잔고) [ 인수 : MemberDto dto[mNo] / 반환 : 성공, 실패 ]
-	public boolean checkAccount( int mNo ) {
-		
-		return true;
-	}
 
 	private int logSession = 0;
 	
@@ -47,18 +41,11 @@ public class Mcontroller {
 	public String searchID( String mName, String mEmail ) {
 		return Mdao.getInstance().searchID(mName, mEmail);
 	}
-
-	// 4. 코인 등록
-	public boolean regiCoin( CoinDto cDto  ) {
-		return false;
-
-	}
 	
 	// 4. 비밀번호 찾기
 	public String searchPW( String mId, String mPhone ) {
 		return Mdao.getInstance().searchPW(mId, mPhone);
 	}
-	
 	
 	// 5. 계좌 등록
 	public boolean createAcc( String accName, String accountNo, int accBalance ) {
@@ -66,7 +53,13 @@ public class Mcontroller {
 		return Mdao.getInstance().createAcc(aDto);
 	}
 	
-	// 6. 코인 등록
+	// 6-1. 코인 등록 권한 확인
+	public boolean adminCoin() {
+		return Mdao.getInstance().adminCoin(logSession);
+	}
+	
+	
+	// 6-2,3. 코인 등록
 	public int regiCoin(String cName, int cAmount, int cPrice, int cFirstprice) {
 		
 		int result = Mdao.getInstance().coinCheck(cName);
@@ -79,7 +72,7 @@ public class Mcontroller {
 	
 	// 7. 회원 탈퇴
 	public boolean leave( String mpw ) {
-		return Mdao.getInstance().leave(mpw);
+		return Mdao.getInstance().leave( logSession, mpw);
 	}
 	
 	public int getLogSession() {

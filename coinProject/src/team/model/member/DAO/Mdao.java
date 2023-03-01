@@ -73,7 +73,6 @@ public class Mdao extends Dao{
 			if( rs.next()) { return rs.getString(2); }
 		}catch (Exception e) {System.out.println(e);}
 		return null;
-		
 	}
 	
 	// 3-2. 아이디 찾기(이름, 이메일)
@@ -124,7 +123,23 @@ public class Mdao extends Dao{
 		return false;
 	}
 	
-	// 6-1. 코인 중복 체크
+	// 6-1. 코인 등록 권한 확인
+	public boolean adminCoin( int mNo ) {
+		String sql = "select * from member where mNo = ?";
+		
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, mNo);
+			rs = ps.executeQuery();
+			if( rs.next() ) { 
+				if(rs.getString(2).equals("admin")) { return true; }
+			}
+			else { return false; }
+		} catch(Exception e) { System.out.println("예외발생: " + e);}
+		return false;
+	}
+
+	// 6-2. 코인 중복 체크
 	public int coinCheck( String cName ) {
 		String sql = "select * from coinlist where cName = ?";
 		try {
@@ -137,7 +152,7 @@ public class Mdao extends Dao{
 		return 3;
 	}
 	
-	// 6-2. 코인 등록 처리
+	// 6-3. 코인 등록 처리
 	public int regiCoin( CoinDto cDto ) {
 		
 		String sql = "insert into coinlist( cName, cPrice, cAmount, cFirstprice ) values( ?, ?, ?, ? )";
@@ -159,17 +174,26 @@ public class Mdao extends Dao{
 
 	
 	// 7. 회원 탈퇴
-	public boolean leave( String mpw ) {
-		String sql = "delete from member where mNo = ? and mPw = ?";
+	public boolean leave( int mNo, String mPw ) {
+		
+		String sql = "select * from member where mNo = ?";
 		
 		try {
 			ps = con.prepareStatement(sql);
 			
-			ps.setInt(1, Mcontroller.getInstance().getLogSession());
-			ps.setString(2, mpw);
-			ps.executeUpdate();
-			
-			return true;
+			ps.setInt(1, mNo);
+			rs = ps.executeQuery();
+			if( rs.next() ) {
+				if(rs.getString(3).equals(mPw)) {
+					String dsql = "delete from member where mNo = ? and mPw = ?";
+					ps = con.prepareStatement(dsql);
+					
+					ps.setInt(1, mNo);
+					ps.setString(2, mPw);
+					ps.executeUpdate();
+					return true;
+				}
+			}	
 		} catch( Exception e ) { System.out.println("예외 발생:" + e ); }
 		return false;
 	}
