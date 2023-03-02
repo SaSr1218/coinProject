@@ -52,6 +52,8 @@ create table sell(
 drop table if exists account;
 create table account(							
 	aNo int auto_increment primary key,				-- account 고유번호
+    aName int  ,									-- 계좌멤버 이름
+    aAcount int  ,									-- 계좌번호
     aBalance int not null,							-- 잔고
     aAmount int not null,							-- 잔여갯수
     mNo int,										-- 멤버 고유번호
@@ -65,10 +67,13 @@ create table create_acc(
 	accNo int auto_increment primary key,
     accName varchar(20),
     accountNo varchar(20),					-- 계좌번호
-    accBalance int	,							-- 계좌 잔고
+    accBalance int	,						-- 계좌 잔고
     mNo int,
     foreign key ( mNo ) references member ( mNo ) on delete cascade
 );
+
+insert into member ( mId , mPw , mName , mPhone , mEmail ) values ( 'admin' , 'admin' ,  '관리자' , '01012345678' , 'admin@naver.com' );
+
 
 select * from member;
 select * from coinlist;
@@ -77,7 +82,5 @@ select * from sell;
 select * from account ;
 select * from create_acc;
 
-insert into member ( mId, mPw, mName, mPhone, mEmail ) values( 'hoky92', '1234', '김태호', '010-6706-9602', 'hokeng92@naver.com' );
-delete from member where mPw = '1234' and mNo = "1";
-insert into create_acc ( accName, accountNo, accBalance, mNo) values( '업비트', '12-345-1234', '0', '2');
+
 

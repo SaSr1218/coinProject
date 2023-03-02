@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import team.controller.Mcontroller;
 import team.controller.Scontroller;
+import team.model.coinlist.Cdao;
 import team.model.selling.Sdao;
 import team.model.selling.sellingDto;
 
@@ -12,21 +13,16 @@ public class Selling implements Color {
 	
 	Scanner scanner = new Scanner(System.in);
 	
-	public static void main(String[] args) {
-
-		Selling selling = new Selling();
-		selling.index();
-
-		
-	}
+	private static Selling sell = new Selling();
+	private Selling () { }
+	public static Selling getInstance() { return sell; }
 	
 	
 	
 	public void index() {
 		
 		while( true ) {
-			
-			System.out.println();
+			Cdao.getInstance().print_coin();
 			
 			System.out.println("1. 매수 / 2. 매도 / 3. 손익확인(임시)");
 			int cNo = scanner.nextInt();
@@ -54,13 +50,13 @@ public class Selling implements Color {
 			System.out.println("매수할 갯수를 입력해주세요.");
 			int bAmount = scanner.nextInt();
 			
-			/*
+			
 			boolean result2 = Scontroller.getInstance().buy_coin( 
 					Mcontroller.getInstance().getLogSession(), bPrice, bAmount , cNo );
-			*/
+			
 			
 			// test code test code test code test code test code test code
-			boolean result2 = Scontroller.getInstance().buy_coin(1, bPrice, bAmount, cNo);
+			// boolean result2 = Scontroller.getInstance().buy_coin(1, bPrice, bAmount, cNo);
 			// test code test code test code test code test code test code
 			
 			if( result2 ) { System.out.println("매수가 완료되었습니다. 매수금액 : "+ BLUE + bPrice +"원"+ RESET );}
@@ -92,12 +88,12 @@ public class Selling implements Color {
 		int count = Scontroller.getInstance().coinCheck(bNo);
 		if( sAmount > count ) { System.out.println( RED + "구매수량을 초과하여 판매할 수 없습니다." + RESET );}
 		
-		/*
+		
 		boolean result = Scontroller.getInstance().sell_coin( 
 				Mcontroller.getInstance().getLogSession() , bNo, sPrice , sAmount , cNo);
-		*/
 		
-		boolean result = Scontroller.getInstance().sell_coin(1, bNo, sPrice, sAmount, cNo);
+		
+		//boolean result = Scontroller.getInstance().sell_coin(1, bNo, sPrice, sAmount, cNo);
 		
 		if( result ) { System.out.println("매도가 완료되었습니다.");}
 		else { System.out.println("매도실패");}
@@ -107,7 +103,7 @@ public class Selling implements Color {
 	// 손익 리스트
 	public void profit_loss_print() {
 		
-		ArrayList<sellingDto> report = Scontroller.getInstance().profit_and_loss(1);
+		ArrayList<sellingDto> report = Scontroller.getInstance().profit_and_loss( Mcontroller.getInstance().getLogSession() );
 		
 		System.out.println("============== 손익 리스트 ==============");
 		System.out.println();
