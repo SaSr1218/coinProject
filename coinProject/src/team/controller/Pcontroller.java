@@ -9,14 +9,11 @@ public class Pcontroller {
 	public Pcontroller() { }
 	public static Pcontroller getInstance() { return pcon; }
 	
-	// 0. 로그인 섹션 값
-	private int loginSession = 0;
-	public int getLoginSession() { return loginSession; }
-	public void setLoginSession (int loginSession) { this.loginSession = loginSession; }
+	// 로그인 섹션 값 : Mcontroller.getInstance().getLogSession()
 	
 	// 1. 계좌정보 출력
-	public boolean checkAccount( int mNo ) {
-		return Pdao.getInstance().checkAccount( mNo );
+	public boolean checkAccount( int mNo , int cNo ) {
+		return Pdao.getInstance().checkAccount( mNo , cNo );
 	}
 	
 	// 2. 계좌입금
