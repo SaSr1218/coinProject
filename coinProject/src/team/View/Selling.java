@@ -23,16 +23,20 @@ public class Selling implements Color {
 		
 		while( true ) {
 			
-			Coinlist.getInstance().print_coin();
-			
-			System.out.println("1. 매수 / 2. 매도 / 3. 손익확인(임시)");
+			Thread thread = Coinlist.getInstance();
+	        Coinlist.getInstance().setStop(true);
+	        thread.start();
+	        
 			int cNo = scanner.nextInt();
 			
 			if( cNo == 1 ) {
-					Coinlist.getInstance().setStop( false );
-					buy_coin(); 
-				}
-			else if( cNo == 2 ) { sell_coin(); }
+				Coinlist.getInstance().setStop( false );
+				buy_coin(); 
+			}
+			else if( cNo == 2 ) {
+				Coinlist.getInstance().setStop( false );
+				sell_coin(); 
+			}
 			else if( cNo == 3 ) { profit_loss_print(); }
 		}
 	}
