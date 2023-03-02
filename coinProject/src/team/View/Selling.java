@@ -20,12 +20,13 @@ public class Selling implements Color {
 	
 	
 	public void index() {
-	
+		Thread thread = Coinlist.getInstance();
+        Coinlist.getInstance().setStop(true);
+        thread.start();
+        
 		while( true ) {
 
-			Thread thread = Coinlist.getInstance();
-	        Coinlist.getInstance().setStop(true);
-	        thread.start();
+			
 			
 			int cNo = scanner.nextInt();
 			

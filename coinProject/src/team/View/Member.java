@@ -93,7 +93,7 @@ public class Member {
 			int choice = scanner.nextInt();
 			
 			if( choice == 1 ) { createAcc(); }
-			else if( choice == 2 ) { Thread thread = Coinlist.getInstance(); Coinlist.getInstance().setStop(true); thread.start();  } 
+			else if( choice == 2 ) { Selling.getInstance().index();  } 
 			else if( choice == 3 ) { } 
 			else if( choice == 4 ) { 
 				Mcontroller.getInstance().setLogSession(0);

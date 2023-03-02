@@ -22,35 +22,26 @@ public class Coinlist extends Thread {
 	}
 	@Override
 	public void run() {
-		while(stop) {
-			ArrayList<coinlistDto> result = Ccontroller.getInstance().print_coin();
-			System.out.println("---------------------코인리스트----------------------");
-			System.out.println("번호\t코인이름\t가격\t기초대비");
-			for(int i=0;i<result.size();i++) {
-				System.out.printf("%d\t%s\t%d\t%.2f\n",
-				result.get(i).getcNo(),result.get(i).getcName(),result.get(i).getcPrice(),
-				((double)result.get(i).getcPrice()/(double)result.get(i).getcFirstPrice())*100-100
-				);
+		while(true) {
+			if(stop) {
+				ArrayList<coinlistDto> result = Ccontroller.getInstance().print_coin();
+				System.out.println("---------------------코인리스트----------------------");
+				System.out.println("번호\t코인이름\t가격\t기초대비");
+				for(int i=0;i<result.size();i++) {
+					System.out.printf("%d\t%s\t%d\t%.2f\n",
+					result.get(i).getcNo(),result.get(i).getcName(),result.get(i).getcPrice(),
+					((double)result.get(i).getcPrice()/(double)result.get(i).getcFirstPrice())*100-100
+					);
+				}
+				System.out.println("1. 매수 / 2. 매도 / 3. 손익확인(임시)");
+				try {Thread.sleep(5000); }	// 5초에 한번씩 업데이트
+				catch (Exception e) {}
+			}	
+			else {
+				Thread.yield();
 			}
-			System.out.println("1. 매수 / 2. 매도 / 3. 손익확인(임시)");
-			Selling.getInstance().index();
-			try {Thread.sleep(5000); }	// 5초에 한번씩 업데이트
-			catch (Exception e) {}
 			
 		} // while e
 	} // run e
 	
-	public void print_coin() {		
-		try {Thread.sleep(1000); }	// 5초에 한번씩 업데이트
-		catch (Exception e) {}
-		ArrayList<coinlistDto> result = Ccontroller.getInstance().print_coin();
-		System.out.println("---------------------코인리스트----------------------");
-		System.out.println("번호\t코인이름\t가격\t기초대비");
-		for(int i=0;i<result.size();i++) {
-			System.out.printf("%d\t%s\t%d\t%.2f\n",
-					result.get(i).getcNo(),result.get(i).getcName(),result.get(i).getcPrice(),
-					((double)result.get(i).getcPrice()/(double)result.get(i).getcFirstPrice())*100-100
-					);
-		}
-	}// print_coin e
 } // class e
