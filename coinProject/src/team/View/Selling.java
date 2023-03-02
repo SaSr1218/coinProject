@@ -22,12 +22,16 @@ public class Selling implements Color {
 	public void index() {
 		
 		while( true ) {
-			Cdao.getInstance().print_coin();
+			
+			Coinlist.getInstance().print_coin();
 			
 			System.out.println("1. 매수 / 2. 매도 / 3. 손익확인(임시)");
 			int cNo = scanner.nextInt();
 			
-			if( cNo == 1 ) { buy_coin(); }
+			if( cNo == 1 ) {
+					Coinlist.getInstance().setStop( false );
+					buy_coin(); 
+				}
 			else if( cNo == 2 ) { sell_coin(); }
 			else if( cNo == 3 ) { profit_loss_print(); }
 		}
@@ -59,11 +63,18 @@ public class Selling implements Color {
 			// boolean result2 = Scontroller.getInstance().buy_coin(1, bPrice, bAmount, cNo);
 			// test code test code test code test code test code test code
 			
-			if( result2 ) { System.out.println("매수가 완료되었습니다. 매수금액 : "+ BLUE + bPrice +"원"+ RESET );}
-			else { System.out.println("매수에 실패했습니다.");}
+			if( result2 ) { 
+				System.out.println("매수가 완료되었습니다. 매수금액 : "+ BLUE + bPrice +"원"+ RESET );
+				Coinlist.getInstance().setStop( true );
+			}
+			else {
+				System.out.println("매수에 실패했습니다.");
+				Coinlist.getInstance().setStop( true );
+			}
 			
 		}else {
 			System.out.println(RED + "존재하지 않는 코인입니다, 다시 확인해주세요" + RESET );
+			Coinlist.getInstance().setStop( true );
 		}
 		
 	}
@@ -95,8 +106,14 @@ public class Selling implements Color {
 		
 		//boolean result = Scontroller.getInstance().sell_coin(1, bNo, sPrice, sAmount, cNo);
 		
-		if( result ) { System.out.println("매도가 완료되었습니다.");}
-		else { System.out.println("매도실패");}
+		if( result ) {
+			System.out.println("매도가 완료되었습니다.");
+			Coinlist.getInstance().setStop( true );
+		}
+		else { 
+			System.out.println("매도실패");
+			Coinlist.getInstance().setStop( true );
+		}
 	}
 	
 	
@@ -117,7 +134,7 @@ public class Selling implements Color {
 	// 회원이 보유한 코인 확인
 	public void own_coin_check() {
 		
-		ArrayList<sellingDto> own_coinlist = Scontroller.getInstance().own_coin_check(1);
+		ArrayList<sellingDto> own_coinlist = Scontroller.getInstance().own_coin_check(Mcontroller.getInstance().getLogSession());
 		
 		System.out.println("============== 내 지갑 ==============");
 		System.out.println("거래번호\t\t소지갯수\t\t구매가격\t\t상품명");
