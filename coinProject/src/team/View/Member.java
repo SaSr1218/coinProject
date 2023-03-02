@@ -1,5 +1,6 @@
 package team.View;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import team.controller.Mcontroller;
@@ -9,6 +10,7 @@ import team.model.member.DTO.Accountextends.AccountBitsum;
 import team.model.member.DTO.Accountextends.AccountCoinone;
 import team.model.member.DTO.Accountextends.AccountUpbit;
 import team.model.member.DTO.CoinDto;
+import team.model.member.DTO.MemberDto;
 
 public class Member {
 	
@@ -49,6 +51,19 @@ public class Member {
 		System.out.print("연락처(하이픈 생략): ");		String mPhone = scanner.next();
 		System.out.print("이메일: ");				String mEmail = scanner.next();
 		
+		boolean check = checkSignUp( mId, mPw, mPwC, mName, mPhone, mEmail );
+			
+		if( check ) { 
+			int result = Mcontroller.getInstance().signUp(mId, mPw, mName, mPhone, mEmail);
+			if(  result == 1 ) { System.out.println("[알림] 회원가입 완료!"); }
+			else if( result == 2 ) { System.out.println("[알림] 아이디 중복입니다."); }
+			else if( result == 3 ) { System.out.println("[알림] 시스템 오류 관리자 문의!"); }
+		}
+	}
+	
+	// 1-1. 회원가입 양식 유효성 검사 (Front에서 검사해서 데이터 들어옴)
+	public boolean checkSignUp( String mId, String mPw, String mPwC, String mName, String mPhone, String mEmail  )throws Exception{
+		
 		boolean checkId = true;
 		boolean checkPw = true;
 		boolean checkName = true;
@@ -60,13 +75,10 @@ public class Member {
 		if( mName.length() < 2) { System.out.println("[알림] 이름 확인!"); checkName = false; }
 		if( mPhone.length() != 11 ) { System.out.println("[알림] 번호 확인!"); checkPhone = false; }
 		if( !(mEmail.contains("@")) ) { System.out.println("[알림] 잘못된 양식!(@입력)"); checkEmail = false; }
+
+		if( checkId && checkPw && checkName && checkPhone &&  checkEmail ) { return true;}
+		else { return false; }
 		
-		else if( checkId && checkPw && checkName && checkPhone &&  checkEmail ) { 
-			int result = Mcontroller.getInstance().signUp(mId, mPw, mName, mPhone, mEmail);
-			if(  result == 1 ) { System.out.println("[알림] 회원가입 완료!"); }
-			else if( result == 2 ) { System.out.println("[알림] 아이디 중복입니다."); }
-			else if( result == 3 ) { System.out.println("[알림] 시스템 오류 관리자 문의!"); }
-		}
 	}
 	
 	// 2. 로그인
@@ -75,14 +87,15 @@ public class Member {
 		System.out.println("-------------------로그인 페이지-------------------");
 		System.out.print("아이디: ");		String mId = scanner.next();
 		System.out.print("비밀번호: ");		String mpw = scanner.next();
-			
-		boolean result = Mcontroller.getInstance().login(mId, mpw);
+		
+		int result = Mcontroller.getInstance().login(mId, mpw);
 
-		if( result ) {
+		if( result > 0 ) {
 			System.out.println("[알림] 로그인 성공");
 			if( Mcontroller.getInstance().adminCoin() ) { loginIndex( mId ); }
 			else { loginIndex(); }
 		}
+		else if( result == -1 ) { System.out.println("[알림] 휴먼 계정입니다."); }
 		else { System.out.println("[알림] 로그인 실패"); }
 	}
 	
@@ -107,7 +120,7 @@ public class Member {
 	// 2-1. 로그인 후 메뉴 출력 (관리자) - 오버로딩 적용
 	public void loginIndex(String admin) throws Exception{
 		while(true) {
-			System.out.print("[메뉴] 1.계좌생성, 2.코인확인, 3.계좌확인, 4.로그아웃 5.회원탈퇴 6.코인등록[관리자용]");
+			System.out.print("[메뉴] 1.계좌생성, 2.코인확인, 3.계좌확인, 4.로그아웃 5.회원탈퇴 6.회원정보확인 7.코인등록[관리자용]");
 			int choice = scanner.nextInt();
 			
 			if( choice == 1 ) { createAcc(); }
@@ -121,7 +134,8 @@ public class Member {
 				break;
 			} 
 			else if( choice == 5 ) { if(leave()) { break; } } 
-			else if( choice == 6 ) { regiCoin(); }
+			else if( choice == 6 ) { Admin.getInstance().printMemberList();  }
+			else if( choice == 7 ) { Admin.getInstance().regiCoin(); }
 		}
 	}
 
@@ -203,21 +217,7 @@ public class Member {
 		}
 	}
 		
-	// 6. 코인등록
-	public void regiCoin() throws Exception {
-		System.out.println("-------------------관리자용 페이지[코인 등록]-------------------");
-		System.out.print("코인명: ");		String cName = scanner.next();
-		System.out.print("발행량: ");		int cAmount = scanner.nextInt();
-		System.out.print("발행가격: ");		int cPrice = scanner.nextInt();
-		System.out.print("초기가격: ");		int cFirstprice = scanner.nextInt();
-		
-		if( Mcontroller.getInstance().regiCoin(cName, cAmount, cPrice, cFirstprice) == 1 ) {
-			System.out.println("[알림]" + cName + "정상 발행 완료");
-		}
-		else { System.out.println("[알림] 이미 발행된 코인입니다." ); }
-	}
-	
-	// 7. 회원탈퇴
+	// 8. 회원탈퇴
 	public boolean leave() throws Exception {
 		System.out.println("-------------------회원탈퇴 페이지-------------------");
 		System.out.print("비밀번호: ");		String mpw = scanner.next();

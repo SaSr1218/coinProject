@@ -1,19 +1,21 @@
 package team.model.member.DAO;
 
 import java.sql.DriverManager;
+import java.util.ArrayList;
+
+import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
 
 import team.controller.Mcontroller;
 import team.model.Dao;
-import team.model.member.DTO.AccountDto;
 import team.model.member.DTO.CoinDto;
 import team.model.member.DTO.MemberDto;
 
-public class Mdao extends Dao{
+public class MemberDao extends Dao{
 
 	// 싱글톤 적용
-	private static Mdao mdao = new Mdao();
-	private Mdao() {}
-	public static Mdao getInstance() { return mdao; }
+	private static MemberDao mdao = new MemberDao();
+	private MemberDao() {}
+	public static MemberDao getInstance() { return mdao; }
 	
 	// 메소드 영역
 	// 1-1. 회원가입 (아이디 중복 체크)
@@ -32,7 +34,7 @@ public class Mdao extends Dao{
 	// 1-2. 회원가입 처리
 	public int signUp( MemberDto mDto ) {
 		
-		String sql = "insert into member( mId, mPw, mName, mPhone, mEmail ) values( ?,?,?,?, ? )";
+		String sql = "insert into member( mId, mPw, mName, mPhone, mEmail, mState ) values( ?,?,?,?,?,? )";
 		
 		try {
 			ps = con.prepareStatement(sql);
@@ -41,6 +43,7 @@ public class Mdao extends Dao{
 			ps.setString(3, mDto.getmName());
 			ps.setString(4, mDto.getmPhone());
 			ps.setString(5, mDto.getmEmail());
+			ps.setBoolean(6, mDto.getmState());
 			ps.executeUpdate();
 			return 1;
 		}catch( Exception e ) { System.out.println("예외 발생:" + e ); }
@@ -56,8 +59,10 @@ public class Mdao extends Dao{
 			ps.setString(1, mId);
 			ps.setString(2, mPw);
 			rs = ps.executeQuery();
-			if( rs.next() ) { return rs.getInt(1); }
-			else { return 0; }
+			if( rs.next() ) { 	
+				if(rs.getBoolean(7)) { return rs.getInt(1); }
+				else { return -1; }
+			}
 		} catch (Exception e) {System.out.println(e);}
 		return 0;
 	}
@@ -100,80 +105,9 @@ public class Mdao extends Dao{
 			if( rs.next()) { return rs.getString(3); }
 		}catch (Exception e) {System.out.println(e);}
 		return null;
-	}
+	}	
 	
-	// 5. 계좌 생성
-	public boolean createAcc( AccountDto aDto ) {
-		
-		String sql = "insert into create_acc( accName, accountNo, accBalance, mNo ) values( ?, ?, ?, ? )";
-		
-		try {
-			ps = con.prepareStatement(sql);
-			
-			ps.setString(1, aDto.getAccName());
-			ps.setString(2, aDto.getAccountNo());
-			ps.setInt(3, aDto.getAccBalance());
-			ps.setInt(4, aDto.getmNo());
-			ps.executeUpdate();
-	
-			return true;
-		}
-		catch( Exception e ) { System.out.println("예외 발생:" + e ); }
-		
-		return false;
-	}
-	
-	// 6-1. 코인 등록 권한 확인
-	public boolean adminCoin( int mNo ) {
-		String sql = "select * from member where mNo = ?";
-		
-		try {
-			ps = con.prepareStatement(sql);
-			ps.setInt(1, mNo);
-			rs = ps.executeQuery();
-			if( rs.next() ) { 
-				if(rs.getString(2).equals("admin")) { return true; }
-			}
-			else { return false; }
-		} catch(Exception e) { System.out.println("예외발생: " + e);}
-		return false;
-	}
-
-	// 6-2. 코인 중복 체크
-	public int coinCheck( String cName ) {
-		String sql = "select * from coinlist where cName = ?";
-		try {
-			ps = con.prepareStatement(sql);
-			ps.setString(1, cName);
-			rs = ps.executeQuery();
-			if( rs.next() ) { return 2; }
-			else { return 1; }
-		} catch(Exception e) { System.out.println("예외발생: " + e);}
-		return 3;
-	}
-	
-	// 6-3. 코인 등록 처리
-	public int regiCoin( CoinDto cDto ) {
-		
-		String sql = "insert into coinlist( cName, cPrice, cAmount, cFirstprice ) values( ?, ?, ?, ? )";
-		
-		try {
-			ps = con.prepareStatement(sql);
-			
-			ps.setString(1, cDto.getcName());
-			ps.setInt(2, cDto.getcPrice());
-			ps.setInt(3, cDto.getcAmount());
-			ps.setInt(4, cDto.getcFirstprice());
-			ps.executeUpdate();
-	
-			return 1;
-		} catch( Exception e ) { System.out.println("예외 발생:" + e ); }
-		
-		return 2;
-	}
-
-	
-	// 7. 회원 탈퇴
+	// 9. 회원 탈퇴
 	public boolean leave( int mNo, String mPw ) {
 		
 		String sql = "select * from member where mNo = ?";
