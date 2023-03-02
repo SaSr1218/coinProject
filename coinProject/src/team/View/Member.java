@@ -43,11 +43,11 @@ public class Member {
 	public void signUp() throws Exception {
 		System.out.println("-------------------회원가입 페이지-------------------");
 		System.out.print("아이디(5자리 이상): ");		String mId = scanner.next();
-		System.out.print("비밀번호: ");		String mPw = scanner.next();
-		System.out.print("비밀번호 확인: ");	String mPwC = scanner.next();
-		System.out.print("이름: ");		String mName = scanner.next();
+		System.out.print("비밀번호: ");				String mPw = scanner.next();
+		System.out.print("비밀번호 확인: ");			String mPwC = scanner.next();
+		System.out.print("이름: ");				String mName = scanner.next();
 		System.out.print("연락처(하이픈 생략): ");		String mPhone = scanner.next();
-		System.out.print("이메일: ");		String mEmail = scanner.next();
+		System.out.print("이메일: ");				String mEmail = scanner.next();
 		
 		boolean checkId = true;
 		boolean checkPw = true;
@@ -60,7 +60,6 @@ public class Member {
 		if( mName.length() < 2) { System.out.println("[알림] 이름 확인!"); checkName = false; }
 		if( mPhone.length() != 11 ) { System.out.println("[알림] 번호 확인!"); checkPhone = false; }
 		if( !(mEmail.contains("@")) ) { System.out.println("[알림] 잘못된 양식!(@입력)"); checkEmail = false; }
-		
 		
 		else if( checkId && checkPw && checkName && checkPhone &&  checkEmail ) { 
 			int result = Mcontroller.getInstance().signUp(mId, mPw, mName, mPhone, mEmail);
@@ -94,7 +93,7 @@ public class Member {
 			int choice = scanner.nextInt();
 			
 			if( choice == 1 ) { createAcc(); }
-			else if( choice == 2 ) { Selling.getInstance().index(); } 
+			else if( choice == 2 ) { Thread thread = Coinlist.getInstance(); Coinlist.getInstance().setStop(true); thread.start();  } 
 			else if( choice == 3 ) { } 
 			else if( choice == 4 ) { 
 				Mcontroller.getInstance().setLogSession(0);
@@ -112,7 +111,7 @@ public class Member {
 			int choice = scanner.nextInt();
 			
 			if( choice == 1 ) { createAcc(); }
-			else if( choice == 2 ) { } 
+			else if( choice == 2 ) { Selling.getInstance().index(); } 
 			else if( choice == 3 ) { } 
 			else if( choice == 4 ) { 
 				Mcontroller.getInstance().setLogSession(0);

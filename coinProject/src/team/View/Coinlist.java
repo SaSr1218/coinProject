@@ -33,6 +33,7 @@ public class Coinlist extends Thread {
 				);
 			}
 			System.out.println("1. 매수 / 2. 매도 / 3. 손익확인(임시)");
+			Selling.getInstance().index();
 			try {Thread.sleep(5000); }	// 5초에 한번씩 업데이트
 			catch (Exception e) {}
 			
