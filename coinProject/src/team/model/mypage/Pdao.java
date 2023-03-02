@@ -10,11 +10,11 @@ public class Pdao extends Dao{
 	private Pdao() { }
 	public static Pdao getInstance() { return pdao; }
 		
-	// 1. 계좌 정보 확인( accName[계좌멤버이름] , Account[계좌번호] , balance[계좌잔고] )
-	public boolean checkAccount( int mNo ) { // 인수 mNo -> 반환 : true[성공] / false[실패]
+	// 1. 계좌 정보 확인( aName[이름] , aAcount[계좌번호] , aBalance[계좌잔고] , aAmount[코인 잔여개수]  )
+	public boolean checkAccount( int mNo , int cNo ) { // 인수 mNo , mNo -> 반환 : true[성공] / false[실패]
 	
-		String sql = " select m.mNo , ac.accName , ac.Account , ac.Balance from member m , create_acc ac "
-				+ " where ac.accNo = m.mNo and m.mNo = ?";
+		String sql = " select m.mNo , m.mName ,  ac.accountNo , ac.accBalance , b.bAmount  from member m , buy b ,  create_acc ac "
+				+ " where  m.mNo = ?;";
 		
 		try {
 			ps = con.prepareStatement(sql);
@@ -23,11 +23,11 @@ public class Pdao extends Dao{
 			
 			rs = ps.executeQuery();
 			if( rs.next() ) {
-				AccountDto dto = new AccountDto(); // ( accName(String) , Acount(String) , Balance(int) 가져오기 )
+				mypageDto dto = new mypageDto( rs.getString(2) , rs.getString(3) , rs.getInt(4) , rs.getInt(5) ); 
 			}
-			
+			return true;
 		}catch (Exception e) {System.out.println("DB 에러 : " + e ) ;}
-		return true;
+		return false;
 	}
 	
 	// 2. 계좌입금
