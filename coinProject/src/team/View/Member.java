@@ -3,6 +3,7 @@ package team.View;
 import java.util.Scanner;
 
 import team.controller.Mcontroller;
+import team.model.coinlist.Cdao;
 import team.model.member.DTO.AccountDto;
 import team.model.member.DTO.Accountextends.AccountBitsum;
 import team.model.member.DTO.Accountextends.AccountCoinone;
@@ -81,8 +82,8 @@ public class Member {
 			int choice = scanner.nextInt();
 			
 			if( choice == 1 ) { createAcc(); }
-			else if( choice == 2 ) { } 
-			else if( choice == 3 ) { } 
+			else if( choice == 2 ) { Selling.getInstance().index(); } 
+			else if( choice == 3 ) { Coinlist.getInstance().print_coin(); } 
 			else if( choice == 4 ) { 
 				Mcontroller.getInstance().setLogSession(0);
 				System.out.println("[알림] 정상적으로 로그아웃되었습니다.");

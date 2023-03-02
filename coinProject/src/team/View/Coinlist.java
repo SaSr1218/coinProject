@@ -15,7 +15,7 @@ public class Coinlist {
 	
 	public void print_coin() {
 		while(true) {
-			try {Thread.sleep(5000); } //해당 메소드 작업시간 추가
+			try {Thread.sleep(1000); }	// 5초에 한번씩 업데이트
 			catch (Exception e) {}
 			ArrayList<coinlistDto> result = Ccontroller.getInstance().print_coin();
 			System.out.println("---------------------코인리스트----------------------");
