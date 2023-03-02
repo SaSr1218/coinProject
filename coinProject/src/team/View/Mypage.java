@@ -20,7 +20,7 @@ public class Mypage {
 		while(true) {
 			try {
 			System.out.println("1. 계좌확인 2. 입금 3. 출금"); int ach = scanner.nextInt();
-			if ( ach == 1 ) { checkAccount( 1 , 1); } // 계좌확인[계좌번호, 계좌잔고]
+			if ( ach == 1 ) { checkAccount(1 ,1 ); } // 계좌확인[계좌번호, 계좌잔고]
 			else if ( ach == 2 ) { deposit( 1000 , 1); } // 계좌입금
 			else if ( ach == 3 ) { withdarw( 1000 , 1); } // 계좌출금
 			} catch (Exception e) {System.out.println("DB 에러 이유 : " + e);}
@@ -32,8 +32,7 @@ public class Mypage {
 	
 	// 1.1 계좌확인
 	public void checkAccount( int mNo , int cNo ) { 
-		System.out.println("연동된 계좌번호는 : " ); 
-		System.out.println("출금 가능 금액은 : ");
+		System.out.println("계좌명 \t 계좌번호 \t \t 계좌잔고 \t 코인잔여개수");
 		
 		boolean result = Pcontroller.getInstance().checkAccount( mNo , cNo );
 		if ( result ) { System.out.println("[계좌정보]"); }

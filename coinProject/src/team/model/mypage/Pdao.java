@@ -12,7 +12,7 @@ public class Pdao extends Dao{
 		
 	// 1. 계좌 정보 확인( aName[이름] , aAcount[계좌번호] , aBalance[계좌잔고] , aAmount[코인 잔여개수]  )
 	public boolean checkAccount( int mNo , int cNo ) { // 인수 mNo , mNo -> 반환 : true[성공] / false[실패]
-	
+			
 		String sql = " select m.mNo , m.mName ,  ac.accountNo , ac.accBalance , b.bAmount  from member m , buy b ,  create_acc ac "
 				+ " where  m.mNo = ?;";
 		
@@ -25,6 +25,7 @@ public class Pdao extends Dao{
 			if( rs.next() ) {
 				mypageDto dto = new mypageDto( rs.getString(2) , rs.getString(3) , rs.getInt(4) , rs.getInt(5) ); 
 			}
+			
 			return true;
 		}catch (Exception e) {System.out.println("DB 에러 : " + e ) ;}
 		return false;

@@ -9,7 +9,7 @@ public class mypageDto {
 	private int mNo;		// 회원번호(fk)	
 	private int cNo;		// 코인번호(fk)	
 	
-	public mypageDto(String aName, String aAcount, int aBalance, int aAmoun ) { }
+	public mypageDto(String aName, String aAcount, int aBalance, int aAmount ) { }
 
 	public int getaNo() {
 		return aNo;
