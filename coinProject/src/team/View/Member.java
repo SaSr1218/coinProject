@@ -83,7 +83,7 @@ public class Member {
 			
 			if( choice == 1 ) { createAcc(); }
 			else if( choice == 2 ) { Selling.getInstance().index(); } 
-			else if( choice == 3 ) { Coinlist.getInstance().print_coin(); } 
+			else if( choice == 3 ) { } 
 			else if( choice == 4 ) { 
 				Mcontroller.getInstance().setLogSession(0);
 				System.out.println("[알림] 정상적으로 로그아웃되었습니다.");
