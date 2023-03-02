@@ -42,15 +42,26 @@ public class Member {
 	// 1. 회원가입
 	public void signUp() throws Exception {
 		System.out.println("-------------------회원가입 페이지-------------------");
-		System.out.print("아이디: ");		String mId = scanner.next();
-		System.out.print("비밀번호: ");		String mPw = scanner.next();
-		System.out.print("비밀번호 확인: ");	String mPwC = scanner.next();
-		System.out.print("이름: ");		String mName = scanner.next();
-		System.out.print("연락처: ");		String mPhone = scanner.next();
-		System.out.print("이메일: ");		String mEmail = scanner.next();
-
-		if( !mPw.equals(mPwC) ) { System.out.println("[알림] 비밀번호 불일치"); }
-		else if( mPw.equals(mPwC) ) { 
+		System.out.print("아이디(5자리 이상): ");		String mId = scanner.next();
+		System.out.print("비밀번호: ");				String mPw = scanner.next();
+		System.out.print("비밀번호 확인: ");			String mPwC = scanner.next();
+		System.out.print("이름: ");				String mName = scanner.next();
+		System.out.print("연락처(하이픈 생략): ");		String mPhone = scanner.next();
+		System.out.print("이메일: ");				String mEmail = scanner.next();
+		
+		boolean checkId = true;
+		boolean checkPw = true;
+		boolean checkName = true;
+		boolean checkPhone = true;
+		boolean checkEmail = true;
+		
+		if( mId.length() < 5 ) { System.out.println("[알림] 아이디 5자리 이상 입력!"); checkId = false; }
+		if( !mPw.equals(mPwC) ) { System.out.println("[알림] 비밀번호 불일치!"); checkPw = false; }
+		if( mName.length() < 2) { System.out.println("[알림] 이름 확인!"); checkName = false; }
+		if( mPhone.length() != 11 ) { System.out.println("[알림] 번호 확인!"); checkPhone = false; }
+		if( !(mEmail.contains("@")) ) { System.out.println("[알림] 잘못된 양식!(@입력)"); checkEmail = false; }
+		
+		else if( checkId && checkPw && checkName && checkPhone &&  checkEmail ) { 
 			int result = Mcontroller.getInstance().signUp(mId, mPw, mName, mPhone, mEmail);
 			if(  result == 1 ) { System.out.println("[알림] 회원가입 완료!"); }
 			else if( result == 2 ) { System.out.println("[알림] 아이디 중복입니다."); }
@@ -82,7 +93,7 @@ public class Member {
 			int choice = scanner.nextInt();
 			
 			if( choice == 1 ) { createAcc(); }
-			else if( choice == 2 ) { Selling.getInstance().index(); } 
+			else if( choice == 2 ) { Thread thread = Coinlist.getInstance(); Coinlist.getInstance().setStop(true); thread.start();  } 
 			else if( choice == 3 ) { } 
 			else if( choice == 4 ) { 
 				Mcontroller.getInstance().setLogSession(0);
@@ -102,6 +113,8 @@ public class Member {
 			if( choice == 1 ) { createAcc(); }
 			else if( choice == 2 ) { } 
 			else if( choice == 3 ) { Mypage.getInstance().mypage(); } 
+			else if( choice == 2 ) { Selling.getInstance().index(); } 
+			else if( choice == 3 ) { } 
 			else if( choice == 4 ) { 
 				Mcontroller.getInstance().setLogSession(0);
 				System.out.println("[알림] 정상적으로 로그아웃되었습니다.");
