@@ -42,7 +42,7 @@ public class Cdao extends Dao{
 			ps.setInt(1, cprice);
 			ps.setInt(2, rs.getInt(1));
 			ps.executeUpdate();	
-		}catch (Exception e) {System.out.println(e);}
+		}catch (Exception e) {System.out.println(e);} 
 		
 		return cprice;
 	} // change_coin e
