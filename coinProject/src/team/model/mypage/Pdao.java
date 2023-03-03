@@ -17,8 +17,8 @@ public class Pdao extends Dao{
 		
 		ArrayList<mypageDto> list = new ArrayList<>();
 		
-		String sql = " select m.mNo , m.mName ,  ac.accountNo , ac.accBalance , b.bAmount  from member m , buy b ,  create_acc ac "
-				+ " where ac.mNo = m.mNo and m.mNo = ?;";
+		String sql = " select m.mNo , m.mName ,  ac.accountNo , ac.accBalance , b.bAmount  from member m , buy b ,  create_acc ac , account a"
+				+ " where ac.mNo = m.mNo and ac.mNo = a.mNo and m.mNo = ?";
 		
 		try {
 			ps = con.prepareStatement(sql);
@@ -35,18 +35,18 @@ public class Pdao extends Dao{
 			
 			
 		}catch (Exception e) {System.out.println("DB 에러 : " + e ) ;}
-		return null;
-		
+		return list;
 	}
 	
 	// 2. 계좌입금
-	public boolean deposit( int aBalance , int mNo ) { 
-		String sql = "insert into account ( aBalance , mNo ) values ( ? , ? )";
+	public boolean deposit( int mNo , int aBalance  ) { 
+		String sql = "insert into account ( mNo , aBalance ) values ( ? , ? )";
+				
 		try {
 			ps = con.prepareStatement(sql);
 			
-			ps.setInt(1, aBalance);
-			ps.setInt(2, mNo);
+			ps.setInt(1, mNo);
+			ps.setInt(2, aBalance);
 			
 			ps.executeUpdate();
 			

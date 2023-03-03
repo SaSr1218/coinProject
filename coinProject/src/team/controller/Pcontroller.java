@@ -20,14 +20,14 @@ public class Pcontroller {
 	}
 	
 	// 2. 계좌입금
-	public boolean deposit( int aBalance , int mNo ) {
-		return Pdao.getInstance().deposit( aBalance, mNo );
+	public boolean deposit(  int mNo , int aBalance  ) {
+		return Pdao.getInstance().deposit( mNo, aBalance  );
 	}
 	
 	
 	// 3. 계좌출금
-	public boolean withdraw( int aBalance , int mNo ) {
-		return Pdao.getInstance().withdraw ( aBalance, mNo );
+	public boolean withdraw( int mNo , int aBalance ) {
+		return Pdao.getInstance().withdraw ( mNo, aBalance );
 	}
 	
 	

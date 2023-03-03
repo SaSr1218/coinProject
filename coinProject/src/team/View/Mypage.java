@@ -22,10 +22,11 @@ public class Mypage {
 	public void mypage(){
 		while(true) {
 			try {
-			System.out.println("1. 계좌확인 2. 입금 3. 출금"); int ach = scanner.nextInt();
+			System.out.println("1. 계좌확인 2. 입금 3. 출금 4.뒤로가기" ); int ach = scanner.nextInt();
 			if ( ach == 1 ) { checkAccount( ); } // 계좌확인[계좌번호, 계좌잔고]
 			else if ( ach == 2 ) { deposit( ); } // 계좌입금
 			else if ( ach == 3 ) { withdarw( ); } // 계좌출금
+			else if ( ach == 4 ) { AccountBack(); }// 뒤로가기
 			} catch (Exception e) {System.out.println("DB 에러 이유 : " + e);}
 		
 	
@@ -40,7 +41,7 @@ public class Mypage {
 		ArrayList<mypageDto> list = Pcontroller.getInstance().checkAccount(Mcontroller.getInstance().getLogSession() );
 		
 		System.out.println("============== 계좌 정보 ===============");
-		System.out.println("계좌명 \t 계좌번호 \t 계좌잔고 \t 코인잔여개수");
+		System.out.println("계좌명 \t 계좌번호 \t \t 계좌잔고 \t 코인잔여개수");
 		for ( mypageDto dto : list ) {
 			System.out.println( dto.getmName() + "\t" + dto.getAccountNo() + "\t" + dto.getAccBalance() + "\t" + dto.getbAmount() );
 		}
@@ -50,8 +51,11 @@ public class Mypage {
 	// 1.2 계좌입금
 	public void deposit( ) {
 		System.out.println("입금할 금액을 입력해주세요."); int inMoney = scanner.nextInt();
-		boolean result = Pcontroller.getInstance().deposit();
-		if ( result ) { System.out.println("계좌입금 완료되었습니다.");}
+		boolean result = Pcontroller.getInstance().deposit( Mcontroller.getInstance().getLogSession() , inMoney);
+		if ( result ) { 
+			Pcontroller.getInstance().deposit(Mcontroller.getInstance().getLogSession(), inMoney);
+			
+			System.out.println("계좌입금 완료되었습니다.");}
 		else { System.out.println("계좌입금 실패하였습니다.");}
 	}
 	
@@ -63,5 +67,9 @@ public class Mypage {
 		else { System.out.println("계좌출금 실패하였습니다.");}
 	}
 	
+	// 1.4 뒤로가기
+	public void AccountBack() throws Exception{
+		Member.getInstance().loginIndex();
+	}
 	
 }
