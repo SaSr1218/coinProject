@@ -1,6 +1,9 @@
 package team.controller;
 
+import java.util.ArrayList;
+
 import team.model.mypage.Pdao;
+import team.model.mypage.mypageDto;
 
 public class Pcontroller {
 
@@ -12,13 +15,13 @@ public class Pcontroller {
 	// 로그인 섹션 값 : Mcontroller.getInstance().getLogSession()
 	
 	// 1. 계좌정보 출력
-	public boolean checkAccount( int mNo , int cNo ) {
-		return Pdao.getInstance().checkAccount( mNo , cNo );
+	public ArrayList<mypageDto> checkAccount( int mNo  ) {
+		return Pdao.getInstance().checkAccount(mNo);
 	}
 	
 	// 2. 계좌입금
 	public boolean deposit( int aBalance , int mNo ) {
-		return Pdao.getInstance().deposit(aBalance, mNo);
+		return Pdao.getInstance().deposit( aBalance, mNo );
 	}
 	
 	
