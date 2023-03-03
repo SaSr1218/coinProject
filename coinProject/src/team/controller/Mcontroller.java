@@ -85,6 +85,10 @@ public class Mcontroller {
 		return MemberAdminDao.getInstance().suspend(mNo);
 	}
 	
+	public int active( String mId, String mPw ) {
+		return MemberDao.getInstance().active(mId,mPw);
+	}
+	
 	
 	// 9. 회원 탈퇴
 	public boolean leave( String mpw ) {

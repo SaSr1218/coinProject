@@ -6,14 +6,14 @@ import java.util.Scanner;
 import team.controller.Mcontroller;
 import team.model.member.DTO.MemberDto;
 
-public class Admin {
+public class MemberAdmin {
 
 	private Scanner scanner = new Scanner(System.in);
 	
 	// 싱글톤 적용
-	private static Admin admin = new Admin();
-	private Admin() {}
-	public static Admin getInstance() { return admin; }
+	private static MemberAdmin admin = new MemberAdmin();
+	private MemberAdmin() {}
+	public static MemberAdmin getInstance() { return admin; }
 	
 	// 6. 코인등록
 	public void regiCoin() throws Exception {

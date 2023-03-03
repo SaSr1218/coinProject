@@ -27,7 +27,7 @@ public class Member {
 	public void index() {
 		while(true) {
 			System.out.println("-------------------EZ 코인 거래소-------------------");
-			System.out.print("[메뉴] 1.회원가임 2.로그인 3.아이디찾기 4.비밀번호찾기");
+			System.out.print("[메뉴] 1.회원가임 2.로그인 3.아이디찾기 4.비밀번호찾기 5.계정활성");
 			try{
 			int choice = scanner.nextInt();
 			
@@ -35,6 +35,7 @@ public class Member {
 			else if( choice == 2) { login(); }
 			else if( choice == 3 ) { searchID(); }
 			else if( choice == 4 ) { searchPW(); }
+			else if( choice == 5 ) { active(); }
 			else { System.out.println("[알림] 번호를 다시 입력해주세요."); }
 			}
 			catch(Exception e){ System.out.println("예외발생: " + e);}
@@ -105,9 +106,9 @@ public class Member {
 			System.out.print("[메뉴] 1.계좌생성, 2.코인확인, 3.계좌확인, 4.로그아웃 5.회원탈퇴");
 			int choice = scanner.nextInt();
 			
-			if( choice == 1 ) { createAcc(); }
-			else if( choice == 2 ) { Selling.getInstance().index();  } 
-			else if( choice == 3 ) { } 
+			if( choice == 1 ) { MemberAccount.getInstance().createAcc(); }
+			else if( choice == 2 ) { Selling.getInstance().index(); } 
+			else if( choice == 3 ) { Mypage.getInstance().mypage(); } 
 			else if( choice == 4 ) { 
 				Mcontroller.getInstance().setLogSession(0);
 				System.out.println("[알림] 정상적으로 로그아웃되었습니다.");
@@ -123,19 +124,17 @@ public class Member {
 			System.out.print("[메뉴] 1.계좌생성, 2.코인확인, 3.계좌확인, 4.로그아웃 5.회원탈퇴 6.회원정보확인 7.코인등록[관리자용]");
 			int choice = scanner.nextInt();
 			
-			if( choice == 1 ) { createAcc(); }
-			else if( choice == 2 ) { } 
-			else if( choice == 3 ) { Mypage.getInstance().mypage(); } 
+			if( choice == 1 ) { MemberAccount.getInstance().createAcc(); }
 			else if( choice == 2 ) { Selling.getInstance().index(); } 
-			else if( choice == 3 ) { } 
+			else if( choice == 3 ) { Mypage.getInstance().mypage(); } 
 			else if( choice == 4 ) { 
 				Mcontroller.getInstance().setLogSession(0);
 				System.out.println("[알림] 정상적으로 로그아웃되었습니다.");
 				break;
 			} 
 			else if( choice == 5 ) { if(leave()) { break; } } 
-			else if( choice == 6 ) { Admin.getInstance().printMemberList();  }
-			else if( choice == 7 ) { Admin.getInstance().regiCoin(); }
+			else if( choice == 6 ) { MemberAdmin.getInstance().printMemberList();  }
+			else if( choice == 7 ) { MemberAdmin.getInstance().regiCoin(); }
 		}
 	}
 
@@ -182,40 +181,6 @@ public class Member {
 			System.out.println("비밀번호: " + Mcontroller.getInstance().searchPW(mId, mPhone));
 		}
 	}
-	
-	// 5. 계좌생성 (상속 활용)
-	public void createAcc() throws Exception {
-		
-		AccountDto acc = new AccountDto();
-		
-		boolean result = true;
-		
-		System.out.println("-------------------계좌생성 페이지-------------------");
-		System.out.print("[계좌선택] 1.업비트 2.빗썸 3.코인원");		int choice = scanner.nextInt();
-		
-		if( choice == 1 ) {
-			acc = new AccountUpbit();
-			String accName = "업비트";		String accountNo = acc.createAccount();
-			System.out.println("[생성 계좌 정보] 계좌은행:"  + accName + " 계좌번호:" + accountNo );
-			result = Mcontroller.getInstance().createAcc(accName,accountNo,0);
-			
-			if( result ) { acc.complete(); }
-		}
-		else if( choice == 2 ) {
-			acc = new AccountBitsum();
-			String accName = "빗썸";		String accountNo = acc.createAccount();
-			System.out.println("[생성 계좌 정보] 계좌은행:"  + accName + " 계좌번호:" + accountNo );
-			result = Mcontroller.getInstance().createAcc(accName,accountNo,0);
-			if( result ) { acc.complete(); }
-		}
-		else if( choice == 3 ) {
-			acc = new AccountCoinone();
-			String accName = "코인원";		String accountNo = acc.createAccount();
-			System.out.println("[생성 계좌 정보] 계좌은행:"  + accName + " 계좌번호:" + accountNo );
-			result = Mcontroller.getInstance().createAcc(accName,accountNo,0);
-			if( result ) { acc.complete(); }
-		}
-	}
 		
 	// 8. 회원탈퇴
 	public boolean leave() throws Exception {
@@ -225,4 +190,18 @@ public class Member {
 		if( Mcontroller.getInstance().leave(mpw) ) { System.out.println("[알림] 회원 탈퇴 정상 완료"); return true;}
 		else { System.out.println("[알림] 비밀번호가 다릅니다."); return false; }
 	}
+	
+	// 9. 계정 활성화
+	public void active() throws Exception{
+		System.out.println("-------------------휴먼 계정 복구 페이지-------------------");
+		System.out.print("아이디: ");		String mId = scanner.next();
+		System.out.print("비밀번호: ");		String mpw = scanner.next();
+		
+		int result = Mcontroller.getInstance().active(mId, mpw);
+			
+		if( result == 1 ) {System.out.println("[알림] 휴먼상태가 해제되었습니다. 아이디 사용 가능");}
+		else if( result == 2 ) { System.out.println("[알림] 휴먼 계정이 아닙니다.");}
+		else {System.out.println("[알림] 시스템 오류");}
+	}
+	
 }

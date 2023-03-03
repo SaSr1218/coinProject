@@ -131,4 +131,30 @@ public class MemberDao extends Dao{
 		} catch( Exception e ) { System.out.println("예외 발생:" + e ); }
 		return false;
 	}
+	
+	// 10. 회원 계정 활성화
+	public int active( String mId, String mPw ){
+				
+		String sql = "select * from member where mId = ? and mPw = ?";
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setString(1, mId);
+			ps.setString(2, mPw);
+			rs = ps.executeQuery();
+			if( rs.next() ) {
+				
+				String usql = "update member set mState = ? where mId = ?";
+				// 아이디 중복검사 하기 때문에, 고유값으로 사용 가능
+				ps = con.prepareStatement(usql);
+				if( rs.getBoolean(7) ) { return 2; } // 이미 활성화되있는 계정
+				else {
+					ps.setBoolean(1, true);
+					ps.setString(2, mId);
+					ps.executeUpdate();
+					return 1; // 활성화 완료
+				} 
+			}
+		}catch (Exception e) {System.out.println(e);}
+		return 3;
+	}
 }
