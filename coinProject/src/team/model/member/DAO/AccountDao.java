@@ -26,8 +26,7 @@ public class AccountDao extends Dao {
 			ps.executeUpdate();
 	
 			return true;
-		}
-		catch( Exception e ) { System.out.println("예외 발생:" + e ); }
+		} catch( Exception e ) { System.out.println("예외 발생:" + e ); }
 		
 		return false;
 	}

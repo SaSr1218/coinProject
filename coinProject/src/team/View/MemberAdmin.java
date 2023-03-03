@@ -27,7 +27,7 @@ public class MemberAdmin {
 			System.out.println("[알림]" + cName + "정상 발행 완료");
 		}
 		else { System.out.println("[알림] 이미 발행된 코인입니다." ); }
-		}
+	}
 		
 	// 7. 회원정보 확인
 	public void printMemberList() throws Exception{
@@ -37,7 +37,8 @@ public class MemberAdmin {
 		ArrayList<MemberDto> mList = Mcontroller.getInstance().printMemberList();
 		
 		for( MemberDto x : mList ) {
-			System.out.printf( "%2s \t %10s \t %10s \t %10s \t %10s \t %10s \n", x.getmNo(), x.getmId(), x.getmName(), x.getmPhone(), x.getmEmail(), (x.getmState() == true ? "활성계정" : "휴먼계정") );
+			System.out.printf( "%2s \t %10s \t %10s \t %10s \t %10s \t %10s \n",
+					x.getmNo(), x.getmId(), x.getmName(), x.getmPhone(), x.getmEmail(), (x.getmState() == true ? "활성계정" : "휴먼계정") );
 		}
 			
 		System.out.print("[메뉴] 1.계정 상태 변경 2.뒤로가기");
