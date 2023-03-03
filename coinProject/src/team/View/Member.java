@@ -1,16 +1,7 @@
 package team.View;
 
-import java.util.ArrayList;
 import java.util.Scanner;
-
 import team.controller.Mcontroller;
-import team.model.coinlist.Cdao;
-import team.model.member.DTO.AccountDto;
-import team.model.member.DTO.Accountextends.AccountBitsum;
-import team.model.member.DTO.Accountextends.AccountCoinone;
-import team.model.member.DTO.Accountextends.AccountUpbit;
-import team.model.member.DTO.CoinDto;
-import team.model.member.DTO.MemberDto;
 
 public class Member {
 	
