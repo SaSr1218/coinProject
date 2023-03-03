@@ -19,27 +19,28 @@ public class Selling implements Color {
 	
 	
 	
-	public void index() {
-		Thread thread = Coinlist.getInstance();
-        Coinlist.getInstance().setStop(true);
-        thread.start();
-        
+	public void index( int cNo ) {
+		
 		while( true ) {
-
 			
+			System.out.println("=== 코인 상세보기 === ");
+			System.out.println("코인명");
+			System.out.println("현재가");
+			System.out.println("최근거래가");
+			System.out.println("보유단가");
+			System.out.println("보유수량");
+			System.out.println("손익, 원");
+			System.out.println("손익, %");
+			System.out.println();
+			System.out.println("1. 매수하기 / 2. 매도하기 3. 뒤로가기");
+			int ch = scanner.nextInt();
 			
-			int cNo = scanner.nextInt();
+			if( ch == 1 ) { buy_coin(); }
+			else if( ch == 2 ) { sell_coin(); }
+			else if ( ch == 3 ) { break; }
 			
-			if( cNo == 1 ) {
-				Coinlist.getInstance().setStop( false );
-				buy_coin(); 
-			}
-			else if( cNo == 2 ) {
-				Coinlist.getInstance().setStop( false );
-				sell_coin(); 
-			}
-			else if( cNo == 3 ) { profit_loss_print(); }
 		}
+		
 	}
 	
 	

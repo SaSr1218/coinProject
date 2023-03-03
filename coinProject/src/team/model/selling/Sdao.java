@@ -14,6 +14,21 @@ public class Sdao extends Dao {
 	}
 	
 	
+	
+	public 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// ================================================================================
+	
+	
 	// 코인 목록 가져오기
 	public String coinListCheck( int cNo ) {
 		
@@ -224,9 +239,4 @@ public class Sdao extends Dao {
 		return report;
 		
 	}
-	
-	
-	
-	
-	
 }
