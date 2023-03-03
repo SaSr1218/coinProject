@@ -122,6 +122,10 @@ where p.cno = t.cno and t.tradestate = 's'
 group by t.ctprice , t.ctvolume , p.ciprice , p.cmremaining ;
 
 -- 평단가 구하는 쿼리
+select sum((t.ctprice*t.ctvolume) + (p.ciprice*p.cmremaining))/c.camount as result
+from cointradelist t , coinlist c , coinmarketp p 
+where c.cno = t.cno and c.cno = 1 and t.tradestate = 's';
+
 update coinmarketp p , 
 (select sum((t.ctprice*t.ctvolume) + (p.ciprice*p.cmremaining))/c.camount as result
 from cointradelist t , coinlist c , coinmarketp p 
