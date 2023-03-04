@@ -36,8 +36,8 @@ public class Pcontroller {
 	
 	
 	// 3. 계좌출금
-	public boolean withdraw( int mNo , int aBalance ) {
-		return Pdao.getInstance().withdraw ( mNo, aBalance );
+	public boolean withdraw( int mNo , int aBalance , int withdraw ) {
+		return Pdao.getInstance().withdraw ( mNo, aBalance , withdraw );
 	}
 	
 	

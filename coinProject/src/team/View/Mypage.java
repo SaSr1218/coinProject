@@ -51,7 +51,7 @@ public class Mypage {
 	// 1.2 계좌입금
 	public void deposit( ) {
 		System.out.println("입금할 금액을 입력해주세요."); int inMoney = scanner.nextInt();
-		int aBalance = Pcontroller.getInstance().getaBalance(Mcontroller.getInstance().getLogSession());
+		int aBalance = Pcontroller.getInstance().getaBalance(Mcontroller.getInstance().getLogSession() );
 		boolean result = Pcontroller.getInstance().deposit( Mcontroller.getInstance().getLogSession() , aBalance , inMoney);
 		if ( result ) { 
 			Pcontroller.getInstance().deposit(Mcontroller.getInstance().getLogSession(), aBalance , inMoney);
@@ -63,9 +63,13 @@ public class Mypage {
 	// 1.3 계좌출금
 	public void withdarw() { // if 출금 금액이 계좌금액보다 크다면 실패하고 "계좌에 있는 금액 이하를 입력해주세요."
 		System.out.println("출금할 금액을 입력해주세요."); int outMoney = scanner.nextInt();
-		boolean result = Pcontroller.getInstance().withdraw();
-		if ( result ) { System.out.println("계좌출금 완료되었습니다.");}
-		else { System.out.println("계좌출금 실패하였습니다.");}
+		int aBalance = Pcontroller.getInstance().getaBalance(Mcontroller.getInstance().getLogSession() );
+				
+		boolean result = Pcontroller.getInstance().withdraw(Mcontroller.getInstance().getLogSession() , aBalance , outMoney);
+		
+		if ( result ) { System.out.println("[거래성공]계좌출금 완료되었습니다.");}
+
+		else { System.out.println("[거래실패]계좌출금 실패하였습니다.");}
 	}
 	
 	// 1.4 뒤로가기

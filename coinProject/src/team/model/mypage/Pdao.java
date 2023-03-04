@@ -2,6 +2,8 @@ package team.model.mypage;
 
 import java.util.ArrayList;
 
+import team.controller.Mcontroller;
+import team.controller.Pcontroller;
 import team.model.Dao;
 
 public class Pdao extends Dao{
@@ -16,11 +18,19 @@ public class Pdao extends Dao{
 		
 		ArrayList<mypageDto> list = new ArrayList<>();
 		
-		String sql = " select m.mName , ac.accountNo , a.aBalance , b.bAmount from member m , create_acc ac , buy b , account a "
+		String sql1 = "insert into account ( mNo , aBalance ) values ( ? , 0 )";
+		
+		String sql2 = " select m.mName , ac.accountNo , a.aBalance , b.bAmount from member m , create_acc ac , buy b , account a "
 				+ " where m.mNo and ac.mNo = a.mNo and b.mNo = m.mNo and m.mNo = ?";
 		
 		try {
-			ps = con.prepareStatement(sql);
+			ps = con.prepareStatement(sql1);
+			
+			ps.setInt(1, mNo);
+			ps.executeUpdate();
+			
+			
+			ps = con.prepareStatement(sql2);
 			
 			ps.setInt(1, mNo);
 			
@@ -87,21 +97,32 @@ public class Pdao extends Dao{
 		return 0;
 	}
 	
-	
 	// 3. 계좌출금
-	public boolean withdraw( int aBalance , int mNo ) {	// outMoney를 쓸 예정..
-		String sql = "update account set aBalance = ( aBalance - 매개변수 ) where mNo = ?"; 
-		try {
-			ps = con.prepareStatement(sql);
-			ps.setInt(1, aBalance);
+	public boolean withdraw( int mNo , int aBalance , int withdraw  ) {
+		String sql1 = "insert into account ( mNo , withdraw ) values ( ? , ? )"; 
+		String sql2 = "update account set aBalance = (aBalance - ?) where mNo =?";
+		
+		try {			
+			if( Pcontroller.getInstance().getaBalance(Mcontroller.getInstance().getLogSession()) - withdraw < 0 ) {
+			return false;
+		} 
+			ps = con.prepareStatement(sql1);
+			
+			ps.setInt(1, mNo);
+			ps.setInt(2, withdraw);
+			
+			ps = con.prepareStatement(sql2);
+			
+			ps.setInt(1, withdraw);
 			ps.setInt(2, mNo);
 			
 			ps.executeUpdate();
-			
+
 			return true;
-			
 		}catch (Exception e) { System.out.println("DB 오류 : " + e);}
 		return false;
 	}
+	
+
 	
 }
