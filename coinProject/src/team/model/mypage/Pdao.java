@@ -3,7 +3,6 @@ package team.model.mypage;
 import java.util.ArrayList;
 
 import team.model.Dao;
-import team.model.member.DTO.AccountDto;
 
 public class Pdao extends Dao{
 	
@@ -17,8 +16,8 @@ public class Pdao extends Dao{
 		
 		ArrayList<mypageDto> list = new ArrayList<>();
 		
-		String sql = " select m.mNo , m.mName ,  ac.accountNo , ac.accBalance , b.bAmount  from member m , buy b ,  create_acc ac , account a"
-				+ " where ac.mNo = m.mNo and ac.mNo = a.mNo and m.mNo = ?";
+		String sql = " select m.mName , ac.accountNo , a.aBalance , b.bAmount from member m , create_acc ac , buy b , account a "
+				+ " where m.mNo and ac.mNo = a.mNo and b.mNo = m.mNo and m.mNo = ?";
 		
 		try {
 			ps = con.prepareStatement(sql);
@@ -27,7 +26,7 @@ public class Pdao extends Dao{
 			
 			rs = ps.executeQuery();
 			if( rs.next() ) {
-				mypageDto dto = new mypageDto( rs.getString(2) , rs.getString(3) , rs.getInt(4) , rs.getInt(5) ); 
+				mypageDto dto = new mypageDto( rs.getString(1) , rs.getString(2) , rs.getInt(3) , rs.getInt(4) ); 
 				
 				list.add(dto);
 				return list;
@@ -39,14 +38,20 @@ public class Pdao extends Dao{
 	}
 	
 	// 2. 계좌입금
-	public boolean deposit( int mNo , int aBalance  ) { 
-		String sql = "insert into account ( mNo , aBalance ) values ( ? , ? )";
-				
+	public boolean deposit( int mNo , int aBalance , int adeposit ) { 
+		String sql1 = "insert into account ( mNo , adeposit ) values ( ? , ? )";
+		String sql2 = "update account set aBalance = (aBalance + ?/2 ) where mNo = ?";
+		
 		try {
-			ps = con.prepareStatement(sql);
+			ps = con.prepareStatement(sql1);
 			
 			ps.setInt(1, mNo);
-			ps.setInt(2, aBalance);
+			ps.setInt(2, adeposit);
+			
+			ps = con.prepareStatement(sql2);
+			
+			ps.setInt(1, adeposit);
+			ps.setInt(2, mNo);
 			
 			ps.executeUpdate();
 			
@@ -54,6 +59,34 @@ public class Pdao extends Dao{
 		}catch (Exception e) { System.out.println("DB 오류 : " + e);}
 		return false;
 	}
+	
+	// 2.1 입금계좌 찾기
+	public int getaBalance( int mNo ) {
+		String sql = "select * from account aBalance where mNo = ?";
+		
+		try {
+			
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, mNo);
+			rs = ps.executeQuery();
+			if ( rs.next() ) { return rs.getInt(4); }
+		}catch (Exception e) {System.out.println(e);}
+		return 0;
+	}
+	
+	// 2.2 입금금액 찾기
+	public int getAdeposit (int mNo) {
+		String sql = "select * from account adeposit where mNo = ?";
+		
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, mNo);
+			rs = ps.executeQuery();
+			if ( rs.next() ) { return rs.getInt(6); }
+		}catch (Exception e) {System.out.println(e);}
+		return 0;
+	}
+	
 	
 	// 3. 계좌출금
 	public boolean withdraw( int aBalance , int mNo ) {	// outMoney를 쓸 예정..
@@ -72,4 +105,3 @@ public class Pdao extends Dao{
 	}
 	
 }
-	

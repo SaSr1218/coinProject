@@ -51,9 +51,10 @@ public class Mypage {
 	// 1.2 계좌입금
 	public void deposit( ) {
 		System.out.println("입금할 금액을 입력해주세요."); int inMoney = scanner.nextInt();
-		boolean result = Pcontroller.getInstance().deposit( Mcontroller.getInstance().getLogSession() , inMoney);
+		int aBalance = Pcontroller.getInstance().getaBalance(Mcontroller.getInstance().getLogSession());
+		boolean result = Pcontroller.getInstance().deposit( Mcontroller.getInstance().getLogSession() , aBalance , inMoney);
 		if ( result ) { 
-			Pcontroller.getInstance().deposit(Mcontroller.getInstance().getLogSession(), inMoney);
+			Pcontroller.getInstance().deposit(Mcontroller.getInstance().getLogSession(), aBalance , inMoney);
 			
 			System.out.println("계좌입금 완료되었습니다.");}
 		else { System.out.println("계좌입금 실패하였습니다.");}

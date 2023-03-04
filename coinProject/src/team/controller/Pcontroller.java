@@ -20,8 +20,18 @@ public class Pcontroller {
 	}
 	
 	// 2. 계좌입금
-	public boolean deposit(  int mNo , int aBalance  ) {
-		return Pdao.getInstance().deposit( mNo, aBalance  );
+	public boolean deposit(  int mNo , int aBalance , int adeposit  ) {
+		return Pdao.getInstance().deposit( mNo, aBalance , adeposit  );
+	}
+	
+	// 2.1 입금 계좌 같은것찾기
+	public int getaBalance( int mNo ) {
+		return Pdao.getInstance().getaBalance(mNo);
+	}
+	
+	// 2.2 계좌 입금금액 같은것찾기
+	public int getAdeposit(int mNo) {
+		return Pdao.getInstance().getAdeposit(mNo);
 	}
 	
 	
