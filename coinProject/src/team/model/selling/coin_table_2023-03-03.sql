@@ -129,7 +129,7 @@ where c.cno = t.cno and c.cno = 1 and sellstate = 's' ;
 -- ( CIprice( 초기단가) * CMRemaining( 남은코인갯수) ) + ( ctprice(최근판매단가)  * ctvolume(구매수량) )
 
 -- 최근판매단가 구하는 쿼리
-select ctprice from cointradelist where sellstate is not null order by ctdate desc limit 1 ;
+select ctprice from cointradelist where cno = 1 and sellstate is not null order by ctdate desc limit 1 ;
 
 -- 구매수량 구하는 쿼리
 select 
@@ -152,7 +152,7 @@ from dual;
 -- (( CIprice( 초기단가) * CMRemaining( 남은코인갯수) ) + ( ctprice(최근판매단가)  * ctvolume(구매수량) )) / 전체갯수 최종쿼리
 select ((p.ciprice*p.cmremaining) +
 	(select
-		(select ctprice from cointradelist where sellstate is not null order by ctdate desc limit 1)
+		(select ctprice from cointradelist where cno = 1 and sellstate is not null order by ctdate desc limit 1)
 		*
 		(select 
 		((select sum(ctvolume) from cointradelist where cno = 1 and sellstate is null)
@@ -160,13 +160,16 @@ select ((p.ciprice*p.cmremaining) +
 		from (select sum(ctvolume) from cointradelist where cno = 1 and sellstate is null) buycoin , 
 		(select sum(ctvolume) from cointradelist where cno = 1 and sellstate is not null) sellcoin)
 	from dual)) / c.cAmount as result
-from coinmarketp p , coinlist c where p.cno = 1 ;
+from coinmarketp p , coinlist c where p.cno = c.cno and p.cno = 1 ;
+
+select * from coinmarketp;
+select * from cointradelist ;
 
 -- 현단가로 업데이트 쿼리
 update coinmarketp p,
 	(select ((p.ciprice*p.cmremaining) +
 		(select
-			(select ctprice from cointradelist where sellstate is not null order by ctdate desc limit 1)
+			(select ctprice from cointradelist where cno = 1 and sellstate is not null order by ctdate desc limit 1)
 			*
 			(select 
 			((select sum(ctvolume) from cointradelist where cno = 1 and sellstate is null)
@@ -174,7 +177,15 @@ update coinmarketp p,
 			from (select sum(ctvolume) from cointradelist where cno = 1 and sellstate is null) buycoin , 
 			(select sum(ctvolume) from cointradelist where cno = 1 and sellstate is not null) sellcoin)
 		from dual)) / c.cAmount as result
-	from coinmarketp p , coinlist c where p.cno = 1) r
+	from coinmarketp p , coinlist c where p.cno = c.cno and p.cno = 1) r
+set p.cmprice = r.result where p.cno = 1 ;
+
+update coinmarketp p,
+(select ((p.ciprice*p.cmremaining) +
+(select (select ctprice from cointradelist where sellstate is not null order by ctdate desc limit 1) *
+(select ((select sum(ctvolume) from cointradelist where cno = 1 and sellstate is null) - (select sum(ctvolume) from cointradelist where cno = 1 and sellstate is not null))
+from (select sum(ctvolume) from cointradelist where cno = 1 and sellstate is null) buycoin , (select sum(ctvolume) from cointradelist where cno = 1 and sellstate is not null) sellcoin)
+from dual)) / c.cAmount as result from coinmarketp p , coinlist c where p.cno = c.cno and p.cno = 1) r
 set p.cmprice = r.result where p.cno = 1 ;
 
 
