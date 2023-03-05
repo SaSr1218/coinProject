@@ -19,38 +19,40 @@ public class MemberAccount {
 	
 	
 	// 5. 계좌생성 (상속 활용)
-	public void createAcc() throws Exception {
+	public void createAcc() {
 		
 		AccountDto acc = new AccountDto();
 		
 		boolean result = true;
 		
 		System.out.println("-------------------계좌생성 페이지-------------------");
-		System.out.print("[계좌선택] 1.업비트 2.빗썸 3.코인원");		int choice = scanner.nextInt();
+		try {
+			System.out.print("[계좌선택] 1.업비트 2.빗썸 3.코인원");		int choice = scanner.nextInt();
 		
-		if( choice == 1 ) {
-			acc = new AccountUpbit();
-			String accName = "업비트";		String accountNo = acc.createAccount();
-			System.out.println("[생성 계좌 정보] 계좌은행:"  + accName + " 계좌번호:" + accountNo );
-			result = Mcontroller.getInstance().createAcc(accName,accountNo,0);
-			
-			if( result ) { acc.complete(); }
+			if( choice == 1 ) {
+				acc = new AccountUpbit();
+				String accName = "업비트";		String accountNo = acc.createAccount();
+				System.out.println("[생성 계좌 정보] 계좌은행:"  + accName + " 계좌번호:" + accountNo );
+				result = Mcontroller.getInstance().createAcc(accName,accountNo,0);
+				
+				if( result ) { acc.complete(); }
+			}
+			else if( choice == 2 ) {
+				acc = new AccountBitsum();
+				String accName = "빗썸";		String accountNo = acc.createAccount();
+				System.out.println("[생성 계좌 정보] 계좌은행:"  + accName + " 계좌번호:" + accountNo );
+				result = Mcontroller.getInstance().createAcc(accName,accountNo,0);
+				if( result ) { acc.complete(); }
+			}
+			else if( choice == 3 ) {
+				acc = new AccountCoinone();
+				String accName = "코인원";		String accountNo = acc.createAccount();
+				System.out.println("[생성 계좌 정보] 계좌은행:"  + accName + " 계좌번호:" + accountNo );
+				result = Mcontroller.getInstance().createAcc(accName,accountNo,0);
+				if( result ) { acc.complete(); }
+			}
 		}
-		else if( choice == 2 ) {
-			acc = new AccountBitsum();
-			String accName = "빗썸";		String accountNo = acc.createAccount();
-			System.out.println("[생성 계좌 정보] 계좌은행:"  + accName + " 계좌번호:" + accountNo );
-			result = Mcontroller.getInstance().createAcc(accName,accountNo,0);
-			if( result ) { acc.complete(); }
-		}
-		else if( choice == 3 ) {
-			acc = new AccountCoinone();
-			String accName = "코인원";		String accountNo = acc.createAccount();
-			System.out.println("[생성 계좌 정보] 계좌은행:"  + accName + " 계좌번호:" + accountNo );
-			result = Mcontroller.getInstance().createAcc(accName,accountNo,0);
-			if( result ) { acc.complete(); }
-		}
+		catch(Exception e) { System.out.println( e.getMessage() ); }
+		
 	}
-	
-	
 }
