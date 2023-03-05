@@ -20,6 +20,7 @@ public class Coinlist extends Thread {
 	public void setStop(boolean stop) {
 		this.stop = stop;
 	}
+	
 	@Override
 	public void run() {
 		while(true) {
@@ -43,5 +44,13 @@ public class Coinlist extends Thread {
 			
 		} // while e
 	} // run e
+	
+	public void profit_print() {
+		while(true) {
+			System.out.println("---------------------손익 페이지----------------------");
+			ArrayList<coinlistDto> result = Ccontroller.getInstance().profit_print();
+			System.out.println("NO\t코인명\t보유단가\t보유수량\t현재가\t손익");
+		} // while e
+	} // profit e
 	
 } // class e

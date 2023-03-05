@@ -15,5 +15,9 @@ public class Ccontroller {
 		return Cdao.getInstance().print_coin();
 	}
 	
+	public ArrayList<coinlistDto> profit_print() {
+		return Cdao.getInstance().profit_print();
+	}
+	
 		
 }

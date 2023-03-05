@@ -1,6 +1,9 @@
 package team.model.coinlist;
 
 import java.util.ArrayList;
+
+import team.View.Coinlist;
+import team.controller.Mcontroller;
 import team.model.Dao;
 
 public class Cdao extends Dao{
@@ -24,7 +27,7 @@ public class Cdao extends Dao{
 			return clist;
 		}catch (Exception e) {System.out.println(e);}
 		return null;
-	} // printcoin e
+	} // print_coin e
 	
 	// 코인 가격변동 메소드
 	public int change_coin(int cprice) {
@@ -46,6 +49,31 @@ public class Cdao extends Dao{
 		
 		return cprice;
 	} // change_coin e
+	
+	// 손익 페이지
+	public ArrayList<coinlistDto> profit_print(){
+		ArrayList<coinlistDto> coinlists = new ArrayList<>();
+		for(int i=0; i<coinlists.size();i++) {
+			String sql = "select * from coinmarketp where mNo = ? and cNo = ?;";
+			try {
+				ps.setInt( 1, Mcontroller.getInstance().getLogSession());
+				ps.setInt( 1, i);
+				ps = con.prepareStatement(sql);
+				rs = ps.executeQuery();
+				while(rs.next()) {
+					
+					
+				}
+				return null;
+			}catch (Exception e) {System.out.println(e);}
+		}
+		
+		return null;
+	}
+	
+	
+	
+	
 	
 
 }
