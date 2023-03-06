@@ -11,13 +11,16 @@ public class CoinPrint {
    
    Scanner sc = new Scanner(System.in);
    
-   public void index() {
-      Thread thread = Coinlist.getInstance();
-        Coinlist.getInstance().setStop(true);
-        thread.start();
-        
-        int cno = sc.nextInt();
-        Selling.getInstance().index(cno);
+   public void index(){
+	   Coinlist.getInstance().setStop(true);
+	   int cno = sc.nextInt();
+	   if(cno==0) {
+		   Coinlist.getInstance().setStop(false);
+		   return;
+	   }else {
+		   Coinlist.getInstance().setStop(false);
+		   Selling.getInstance().index(cno);
+	   }
    }
 
 }
