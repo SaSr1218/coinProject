@@ -22,9 +22,8 @@ public class MemberAdmin {
 			System.out.print("코인명: ");		String cName = scanner.next();
 			System.out.print("발행량: ");		int cAmount = scanner.nextInt();
 			System.out.print("발행가격: ");		int cPrice = scanner.nextInt();
-			System.out.print("초기가격: ");		int cFirstprice = scanner.nextInt();
 				
-			if( Mcontroller.getInstance().regiCoin(cName, cAmount, cPrice, cFirstprice) == 1 ) {
+			if( Mcontroller.getInstance().regiCoin(cName, cAmount, cPrice) == 1 ) {
 				System.out.println("[알림]" + cName + "정상 발행 완료");
 			}
 			else { System.out.println("[알림] 이미 발행된 코인입니다." ); }

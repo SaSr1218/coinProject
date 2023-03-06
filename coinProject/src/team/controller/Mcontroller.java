@@ -65,13 +65,13 @@ public class Mcontroller {
 	
 	
 	// 6-2,3. 코인 등록
-	public int regiCoin(String cName, int cAmount, int cPrice, int cFirstprice) {
+	public int regiCoin(String cName, int cAmount, int cPrice) {
 		
 		int result = MemberAdminDao.getInstance().coinCheck(cName);
 		
 		if( result == 2 ) { return 2; }
 		else if( result == 3 ) { return 3;}
-		CoinDto cDto = new CoinDto(0, cName, cPrice, cAmount, cFirstprice);
+		CoinDto cDto = new CoinDto(0, cName, cPrice, cAmount);
 		return MemberAdminDao.getInstance().regiCoin(cDto);
 	}
 	
