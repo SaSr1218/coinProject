@@ -14,7 +14,7 @@ public class Sdao extends Dao {
 		return sdao;
 	}
 	
-	// 코인 정보 가져오기 - 코인 상세보기페이지 , 개인 포트폴리오에 사용할 코인정보 객체화 
+	// 코인 정보 가져오기 
 	public sellingDto getCoinInfo( int cNo , int mNo ) {
 		
 		String sql = "select c.cname , p.cmprice , p.cmremaining , (select ctprice from cointradelist where cno = ? and sellstate is not null order by ctdate desc limit 1) as recent_trade, "
@@ -123,8 +123,8 @@ public class Sdao extends Dao {
 	public void personal_portfolio( int mno , int ctvolume , int ctprice , int cno ) {
 		
 		String sql = "insert into personal_coinlist ( pcno , pcAmount , pcsumprice , cno , mno ) values (  ? , ? , ? , ? , ? )"
-				+ " on duplicate key update pcamount = (select sum(ctvolume) from cointradelist where mno = ?), "
-				+ " pcsumprice = (select sum(ctprice * ctvolume) from cointradelist where mno = ? and cno = ?)/pcamount";
+				+ " on duplicate key update pcamount = (select sum(ctvolume) from cointradelist where mno = ? and cno = ?), "
+				+ " pcsumprice = (select sum(ctprice * ctvolume) from cointradelist where mno = ? and cno = ? and sellstate is null)/pcamount";
 		
 		try {
 			
@@ -136,8 +136,9 @@ public class Sdao extends Dao {
 			ps.setInt(4, cno);
 			ps.setInt(5, mno);
 			ps.setInt(6, mno);
-			ps.setInt(7, mno);
-			ps.setInt(8, cno);
+			ps.setInt(7, cno);
+			ps.setInt(8, mno);
+			ps.setInt(9, cno);
 			
 			ps.executeUpdate();
 			
