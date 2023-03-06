@@ -58,7 +58,7 @@ public class Selling implements Color {
 		sellingDto dto = Scontroller.getInstance().getCoinInfo(cNo, Mcontroller.getInstance().getLogSession() );
 		
 		System.out.println("[" + dto.getCname() + "] / " + 
-							"[가격 : " + dto.getCmprice() +
+							"[ 가격 : " + dto.getCmprice() + "] / " +
 							"[ 잔여코인수량 : " + dto.getCmremaining() + "]");
 		System.out.print("매수할 갯수를 입력해주세요 : ");
 		int ctvolume = scanner.nextInt();
@@ -77,7 +77,9 @@ public class Selling implements Color {
 		
 		sellingDto dto = Scontroller.getInstance().getCoinInfo(cNo, Mcontroller.getInstance().getLogSession() );
 		
-		System.out.println("[" + dto.getCname() + "] / " + "[ 보유코인수량 : " + dto.getPcamount() + "]");
+		System.out.println("[" + dto.getCname() + "] / " + 
+							"[ 시장가 : " + dto.getCmprice() + " ] / " +
+							"[ 보유코인수량 : " + dto.getPcamount() + "]");
 		System.out.print("매도할 갯수를 입력해주세요 : ");
 		int ctvolume = scanner.nextInt();
 		
