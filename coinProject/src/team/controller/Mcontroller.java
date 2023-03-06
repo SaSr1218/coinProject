@@ -65,7 +65,7 @@ public class Mcontroller {
 	
 	
 	// 6-2,3. 코인 등록
-	public int regiCoin(String cName, int cAmount, int cPrice) {
+	public int regiCoin(String cName, int cAmount, int cPrice ) {
 		
 		int result = MemberAdminDao.getInstance().coinCheck(cName);
 		
