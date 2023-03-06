@@ -26,4 +26,8 @@ public class Scontroller {
 		return Sdao.getInstance().sell_coin(ctprice, ctvolume, cno, mno);
 	}
 	
+	public void copy() {
+		Sdao.getInstance().copy();
+	}
+	
 }

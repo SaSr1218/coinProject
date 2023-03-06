@@ -13,7 +13,7 @@ public class Sdao extends Dao {
 		return sdao;
 	}
 	
-	// 코인 정보 가져오기
+	// 코인 정보 가져오기 - 코인 상세보기페이지 , 개인 포트폴리오에 사용할 코인정보 객체화 
 	public sellingDto getCoinInfo( int cNo , int mNo ) {
 		
 		String sql = "select c.cname , p.cmprice , p.cmremaining , (select ctprice from cointradelist where cno = ? and sellstate is not null order by ctdate desc limit 1) as recent_trade, "
@@ -97,6 +97,7 @@ public class Sdao extends Dao {
 		return false;
 	}
 	
+	
 	// 매수된 코인 갯수만큼 해당 코인의 잔여수량 업데이트
 	public void CMRemainingUpdate( int ctvolume , int cno ) {
 		
@@ -115,6 +116,7 @@ public class Sdao extends Dao {
 			System.out.println("잔여수량업데이트 에러 : " + e );
 		}
 	}
+	
 	
 	// 개인 거래현황 인서트 및 업데이트
 	public void personal_portfolio( int mno , int ctvolume , int ctprice , int cno ) {
@@ -141,6 +143,7 @@ public class Sdao extends Dao {
 			System.out.println("개인코인리스트 에러 : " + e );
 		}
 	}
+	
 	
 	// 평단가 업데이트
 	public void CMPriceUpdate( int cno ) {
@@ -172,9 +175,7 @@ public class Sdao extends Dao {
 		}
 		
 	}
-	
-	// ----------------------------------------------------------------------------------------
-	
+		
 	public boolean sell_coin( int ctprice , int ctvolume , int cno , int mno ) {
 		
 		String sql = "insert into cointradelist ( ctprice , ctvolume , sellstate , cno , mno ) values ( ? , ? , ? , ? , ? )";
@@ -204,6 +205,64 @@ public class Sdao extends Dao {
 	}
 	
 	
+	// ----------------------------------------------------------------------------------------
+	
+	// 개인 보유 코인 전체 가져오기
+	public ArrayList<sellingDto> get_personalInfo( int mNo ) {
+		
+		ArrayList<sellingDto> list = new ArrayList<>();
+		
+		String sql = "select c.cname , pn.pcsumprice , pn.pcamount , p.cmprice , ((p.cmprice - pn.pcsumprice)/pn.pcsumprice)*100"
+				+ " from coinmarketp p , personal_coinlist pn , coinlist c "
+				+ " where p.cno = pn.cno and c.cno = p.cno and pn.mno = 3";
+	
+		try {
+			
+			ps = con.prepareStatement(sql);
+			
+			ps.setInt(1, mNo);
+			
+			rs = ps.executeQuery();
+			
+			while( rs.next() ) {
+				
+				sellingDto dto = new sellingDto(
+					rs.getString(1), rs.getInt(2) , rs.getInt(3) , 
+					rs.getInt(4) , rs.getInt(5), rs.getDouble(6)
+				);
+				
+				list.add(dto);
+			}
+			return list;
+			
+		}catch (Exception e) {
+			System.out.println("개인포트폴리오 : " + e );
+		}
+		
+		return null;
+	}
+	
+	
+	public void copy() {
+		
+		String sql = "insert into coinmarketp ( ciprice , cmprice , cmremaining , cno ) values ("
+				+ " (select cprice from coinlist order by cNo desc limit 1),"
+				+ " 0,"
+				+ " (select camount from coinlist order by cNo desc limit 1),"
+				+ " (select cno from coinlist order by cno desc limit 1));";
+		
+		try {
+			ps = con.prepareStatement(sql);
+			
+			ps.executeUpdate();
+			
+		}catch (Exception e) {
+			System.out.println("카피에러 : " + e);
+		}
+		
+	}
+	
 	
 	
 }
+ 

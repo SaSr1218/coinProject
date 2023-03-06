@@ -52,8 +52,6 @@ public class Selling implements Color {
 		
 	}
 	
-	
-	
 	// 코인 매수
 	public void buy_coin( int cNo ) {
 		
@@ -87,6 +85,19 @@ public class Selling implements Color {
 				dto.getCmprice() , ctvolume, cNo, Mcontroller.getInstance().getLogSession());
 		
 		if( result ) { System.out.println("매도가 완료되었습니다. 매도가격 : " + df.format(dto.getCmprice() ) );}
+		
+	}
+	
+	
+	
+	
+	// ------------------------------------------------------------------------------------------
+	
+	// 개인 손익 확인
+	public void my_portfolio() {
+		
+		System.out.println("=== 포트폴리오 ===");
+		System.out.printf("");
 		
 	}
 	

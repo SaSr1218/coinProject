@@ -17,7 +17,7 @@ public class sellingDto {
 	// 2. 생성자
 	public sellingDto() {}
 	
-	public sellingDto(String cname, int cmprice, int cmremaining, int recent_trade, int pcsumprice, int pcamount,double rate, int proceeds) {
+	public sellingDto( String cname, int cmprice, int cmremaining, int recent_trade, int pcsumprice, int pcamount, double rate, int proceeds ) {
 		this.cname = cname;
 		this.cmprice = cmprice;
 		this.cmremaining = cmremaining;
@@ -26,6 +26,15 @@ public class sellingDto {
 		this.pcamount = pcamount;
 		this.rate = rate;
 		this.proceeds = proceeds;
+	}
+	
+	public sellingDto( String cname , int pcsumprice , int pcamount , int cmprice , int proceeds , double rate ) {
+		this.cname = cname;
+		this.pcsumprice = pcsumprice;
+		this.pcamount = pcamount;
+		this.cmprice = cmprice;
+		this.proceeds = proceeds;
+		this.rate = rate;
 	}
 
 
