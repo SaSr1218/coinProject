@@ -2,8 +2,6 @@ package team.model.mypage;
 
 import java.util.ArrayList;
 
-import team.controller.Mcontroller;
-import team.controller.Pcontroller;
 import team.model.Dao;
 
 public class Pdao extends Dao{
@@ -17,26 +15,19 @@ public class Pdao extends Dao{
 	public ArrayList<mypageDto> checkAccount( int mNo  ) { // 인수 mNo , mNo -> 반환 : true[성공] / false[실패]
 		
 		ArrayList<mypageDto> list = new ArrayList<>();
-		
-		String sql1 = "insert into account ( mNo , aBalance ) values ( ? , 0 )";
-		
-		String sql2 = " select m.mName , ac.accName , ac.accountNo , a.aBalance  from member m , create_acc ac , account a "
-				+ " where m.mNo and ac.mNo = a.mNo and m.mNo = ?";
+				
+		String sql = "select ac.accNo , m.mName , ac.accName , ac.accountNo , ac.accBalance from member m , create_acc ac "
+				+ " where ac.mNo = m.mNo and m.mNo = ? ";
 		
 		try {
-			ps = con.prepareStatement(sql1);
-			
-			ps.setInt(1, mNo);
-			ps.executeUpdate();
-			
-			
-			ps = con.prepareStatement(sql2);
+
+			ps = con.prepareStatement(sql);
 			
 			ps.setInt(1, mNo);
 			
 			rs = ps.executeQuery();
-			if( rs.next() ) {
-				mypageDto dto = new mypageDto( rs.getString(1) , rs.getString(2) , rs.getString(3) , rs.getInt(4) ); 
+			while( rs.next() ) {
+				mypageDto dto = new mypageDto( rs.getInt(1) , rs.getString(2) , rs.getString(3) , rs.getString(4) , rs.getInt(5) ); 
 				
 				list.add(dto);
 				return list;
@@ -48,20 +39,22 @@ public class Pdao extends Dao{
 	}
 	
 	// 2. 계좌입금
-	public boolean deposit( int mNo , int aBalance , int adeposit ) { 
+	public boolean deposit( int mNo , int adeposit , int accNo , int accBalance   ) { 
 		String sql1 = "insert into account ( mNo , adeposit ) values ( ? , ? )";
-		String sql2 = "update account set aBalance = (aBalance + ?/2 ) where mNo = ?";
+		String sql2 = "update create_acc set accBalance = ( accBalance + ?/2 ) where accNo = ? and mNo = ? ";
 		
 		try {
 			ps = con.prepareStatement(sql1);
 			
 			ps.setInt(1, mNo);
 			ps.setInt(2, adeposit);
+			ps.executeUpdate();
 			
 			ps = con.prepareStatement(sql2);
 			
 			ps.setInt(1, adeposit);
-			ps.setInt(2, mNo);
+			ps.setInt(2, accNo);
+			ps.setInt(3, mNo);
 			
 			ps.executeUpdate();
 			
@@ -71,20 +64,19 @@ public class Pdao extends Dao{
 	}
 	
 	// 2.1 입금계좌 찾기
-	public int getaBalance( int mNo ) {
-		String sql = "select * from account aBalance where mNo = ?";
+	public int getaccBalance( int mNo ) {
+		String sql = "select * from account accBalance where mNo = ? ";
 		
 		try {
-			
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, mNo);
 			rs = ps.executeQuery();
-			if ( rs.next() ) { return rs.getInt(4); }
+			while ( rs.next() ) { return rs.getInt(4); }
 		}catch (Exception e) {System.out.println(e);}
 		return 0;
 	}
 	
-	// 2.2 입금금액 찾기
+	// 2.2 입금계좌번호 찾기
 	public int getAdeposit (int mNo) {
 		String sql = "select * from account adeposit where mNo = ?";
 		
@@ -97,15 +89,13 @@ public class Pdao extends Dao{
 		return 0;
 	}
 	
+	
 	// 3. 계좌출금
-	public boolean withdraw( int mNo , int aBalance , int withdraw  ) {
+	public boolean withdraw( int mNo , int withdraw , int accNo , int accBalance    ) {
 		String sql1 = "insert into account ( mNo , withdraw ) values ( ? , ? )"; 
-		String sql2 = "update account set aBalance = (aBalance - ?) where mNo =?";
+		String sql2 = "update create_acc set accBalance = (accBalance - ?) where accNo = ? and mNo =?";
 		
-		try {			
-			if( Pcontroller.getInstance().getaBalance(Mcontroller.getInstance().getLogSession()) - withdraw < 0 ) {
-			return false;
-		} 
+		try {
 			ps = con.prepareStatement(sql1);
 			
 			ps.setInt(1, mNo);
@@ -114,7 +104,8 @@ public class Pdao extends Dao{
 			ps = con.prepareStatement(sql2);
 			
 			ps.setInt(1, withdraw);
-			ps.setInt(2, mNo);
+			ps.setInt(2, accNo);
+			ps.setInt(3, mNo);
 			
 			ps.executeUpdate();
 
