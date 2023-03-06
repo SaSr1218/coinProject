@@ -25,11 +25,10 @@ public class mypageDto {
 	}
 
 
-	public mypageDto(String mName, String accountNo, int aBalance, int bAmount ) { 
+	public mypageDto(String mName, String accountNo, int aBalance ) { 
 		this.mName = mName;
 		this.accountNo = accountNo;
 		this.aBalance = aBalance;
-		this.bAmount = bAmount;
 	}
 
 	@Override
@@ -85,20 +84,6 @@ public class mypageDto {
 	public void setAccBalance(int aBalance) {
 		this.aBalance = aBalance;
 	}
-
-
-
-	public int getbAmount() {
-		return bAmount;
-	}
-
-
-
-	public void setbAmount(int bAmount) {
-		this.bAmount = bAmount;
-	}
-
-
 
 	public int getmNo() {
 		return mNo;

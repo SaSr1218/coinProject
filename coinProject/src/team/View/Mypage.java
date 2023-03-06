@@ -43,7 +43,7 @@ public class Mypage {
 		System.out.println("============== 계좌 정보 ===============");
 		System.out.println("계좌명 \t 계좌번호 \t \t 계좌잔고 \t 코인잔여개수");
 		for ( mypageDto dto : list ) {
-			System.out.println( dto.getmName() + "\t" + dto.getAccountNo() + "\t" + dto.getAccBalance() + "\t" + dto.getbAmount() );
+			System.out.println( dto.getmName() + "\t" + dto.getAccountNo() + "\t" + dto.getAccBalance() );
 		}
 		
 	}

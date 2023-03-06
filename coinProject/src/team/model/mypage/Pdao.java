@@ -20,8 +20,8 @@ public class Pdao extends Dao{
 		
 		String sql1 = "insert into account ( mNo , aBalance ) values ( ? , 0 )";
 		
-		String sql2 = " select m.mName , ac.accountNo , a.aBalance , b.bAmount from member m , create_acc ac , buy b , account a "
-				+ " where m.mNo and ac.mNo = a.mNo and b.mNo = m.mNo and m.mNo = ?";
+		String sql2 = " select m.mName , ac.accountNo , a.aBalance  from member m , create_acc ac , account a "
+				+ " where m.mNo and ac.mNo = a.mNo and m.mNo = ?";
 		
 		try {
 			ps = con.prepareStatement(sql1);
@@ -36,7 +36,7 @@ public class Pdao extends Dao{
 			
 			rs = ps.executeQuery();
 			if( rs.next() ) {
-				mypageDto dto = new mypageDto( rs.getString(1) , rs.getString(2) , rs.getInt(3) , rs.getInt(4) ); 
+				mypageDto dto = new mypageDto( rs.getString(1) , rs.getString(2) , rs.getInt(3) ); 
 				
 				list.add(dto);
 				return list;
