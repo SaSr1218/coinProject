@@ -17,7 +17,8 @@ public class CoinPrint {
 	   if(cno==0) {
 		   Coinlist.getInstance().setStop(false);
 		   return;
-	   }else {
+	   }
+	   else {
 		   Coinlist.getInstance().setStop(false);
 		   Selling.getInstance().index(cno);
 	   }
