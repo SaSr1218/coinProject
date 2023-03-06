@@ -12,6 +12,7 @@ create table member (
     mName varchar(20) ,						-- 멤버 이름
     mPhone varchar(20) unique,				-- 멤버 휴대전화
     mEmail varchar(20) unique				-- 이메일
+    mState boolean
 );
 
 drop table if exists coinlist;

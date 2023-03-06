@@ -1,6 +1,10 @@
 package team.controller;
 
-import team.model.member.DAO.Mdao;
+import java.util.ArrayList;
+
+import team.model.member.DAO.AccountDao;
+import team.model.member.DAO.MemberAdminDao;
+import team.model.member.DAO.MemberDao;
 import team.model.member.DTO.AccountDto;
 import team.model.member.DTO.CoinDto;
 import team.model.member.DTO.MemberDto;
@@ -17,62 +21,78 @@ public class Mcontroller {
 	// 1. 회원가입
 	public int signUp( String mId, String mPw, String mName, String mPhone, String mEmail ) {
 		
-		int result = Mdao.getInstance().idCheck(mId);
+		int result = MemberDao.getInstance().idCheck(mId);
 		
 		// 기능1: 유효성 검사 (1: 아이디 중복 x , 2: 아이디 중복 o, 3: 회원가입 미처리)
 		if( result == 2) { return 2; }
 		else if( result == 3){ return 3; }
-		MemberDto mDto = new MemberDto(0, mId, mPw, mName, mPhone, mEmail);
-		return Mdao.getInstance().signUp(mDto);
+		MemberDto mDto = new MemberDto(0, mId, mPw, mName, mPhone, mEmail, true);
+		return MemberDao.getInstance().signUp(mDto);
 	}
 	
 	// 2. 로그인
-	public boolean login( String mId, String mPw ) {
-		int result = Mdao.getInstance().login(mId,mPw);
-		if( result == 0 ) { return false; }
-		else { logSession = result; return true;  }
+	public int login( String mId, String mPw ) {
+		int result = MemberDao.getInstance().login(mId,mPw);
+		if( result == 0 ) { return 0; }
+		else if( result == -1 ) { return -1; }
+		else { logSession = result; return result;  }
 	}
 	
 	// 3. 아이디 찾기
 	public String searchID( String mPhone ) {
-		return Mdao.getInstance().searchID(mPhone);
+		return MemberDao.getInstance().searchID(mPhone);
 	}
 	
 	public String searchID( String mName, String mEmail ) {
-		return Mdao.getInstance().searchID(mName, mEmail);
+		return MemberDao.getInstance().searchID(mName, mEmail);
 	}
 	
 	// 4. 비밀번호 찾기
 	public String searchPW( String mId, String mPhone ) {
-		return Mdao.getInstance().searchPW(mId, mPhone);
+		return MemberDao.getInstance().searchPW(mId, mPhone);
 	}
 	
 	// 5. 계좌 등록
 	public boolean createAcc( String accName, String accountNo, int accBalance ) {
 		AccountDto aDto = new AccountDto( 0, accName, accountNo, accBalance, logSession );
-		return Mdao.getInstance().createAcc(aDto);
+		return AccountDao.getInstance().createAcc(aDto);
 	}
 	
 	// 6-1. 코인 등록 권한 확인
 	public boolean adminCoin() {
-		return Mdao.getInstance().adminCoin(logSession);
+		return MemberAdminDao.getInstance().adminCoin(logSession);
 	}
 	
 	
 	// 6-2,3. 코인 등록
 	public int regiCoin(String cName, int cAmount, int cPrice, int cFirstprice) {
 		
-		int result = Mdao.getInstance().coinCheck(cName);
+		int result = MemberAdminDao.getInstance().coinCheck(cName);
 		
 		if( result == 2 ) { return 2; }
 		else if( result == 3 ) { return 3;}
 		CoinDto cDto = new CoinDto(0, cName, cPrice, cAmount, cFirstprice);
-		return Mdao.getInstance().regiCoin(cDto);
+		return MemberAdminDao.getInstance().regiCoin(cDto);
 	}
 	
-	// 7. 회원 탈퇴
+	// 7. 회원 정보 출력
+	public ArrayList<MemberDto> printMemberList(){
+		return MemberAdminDao.getInstance().printMemberList();
+	}
+	
+	// 8. 휴먼 계정처리
+	public int suspend( int mNo ) {
+		return MemberAdminDao.getInstance().suspend(mNo);
+	}
+	
+	public int active( String mId, String mPw ) {
+		return MemberDao.getInstance().active(mId,mPw);
+	}
+	
+	
+	// 9. 회원 탈퇴
 	public boolean leave( String mpw ) {
-		return Mdao.getInstance().leave( logSession, mpw);
+		return MemberDao.getInstance().leave( logSession, mpw);
 	}
 	
 	public int getLogSession() {

@@ -9,6 +9,7 @@ public class MemberDto {
 	private String mName;
 	private String mPhone;
 	private String mEmail;
+	private boolean mState;
 	
 	// 생성자 영역
 	public MemberDto() {
@@ -16,7 +17,7 @@ public class MemberDto {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public MemberDto(int mNo, String mId, String mPw, String mName, String mPhone, String mEmail) {
+	public MemberDto(int mNo, String mId, String mPw, String mName, String mPhone, String mEmail, boolean mState) {
 		super();
 		this.mNo = mNo;
 		this.mId = mId;
@@ -24,13 +25,14 @@ public class MemberDto {
 		this.mName = mName;
 		this.mPhone = mPhone;
 		this.mEmail = mEmail;
+		this.mState = mState;
 	}
 	
 	// 메소드 영역
 	@Override
 	public String toString() {
 		return "MemberDto [mNo=" + mNo + ", mId=" + mId + ", mPw=" + mPw + ", mName=" + mName + ", mPhone=" + mPhone
-				+ ", mEmail=" + mEmail + "]";
+				+ ", mEmail=" + mEmail + ", mState=" + mState + "]";
 	}
 
 	public int getmNo() {
@@ -80,4 +82,16 @@ public class MemberDto {
 	public void setmEmail(String mEmail) {
 		this.mEmail = mEmail;
 	}
+
+	public boolean getmState() {
+		return mState;
+	}
+
+	public void setmState(boolean mState) {
+		this.mState = mState;
+	}
+	
+	
+	
+	
 }
