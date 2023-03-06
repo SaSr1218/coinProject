@@ -1,3 +1,4 @@
+
 drop database if exists project;
 create database project;
 
@@ -11,7 +12,7 @@ create table member (
     mPw varchar(20),						-- 멤버 패스워드
     mName varchar(20) ,						-- 멤버 이름
     mPhone varchar(20) unique,				-- 멤버 휴대전화
-    mEmail varchar(20) unique				-- 이메일
+    mEmail varchar(20) unique,				-- 이메일
     mState boolean
 );
 
@@ -55,8 +56,10 @@ create table account(
 	aNo int auto_increment primary key,				-- account 고유번호
     aName int  ,									-- 계좌멤버 이름
     aAcount int  ,									-- 계좌번호
-    aBalance int not null,							-- 잔고
-    aAmount int not null,							-- 잔여갯수
+    aBalance int ,									-- 잔고
+    aAmount int ,									-- 잔여갯수
+    adeposit int ,									-- 입금금액
+    withdraw int ,									-- 출금금액
     mNo int,										-- 멤버 고유번호
     cNo int,										-- 코인 고유번호
     foreign key ( mNo ) references member ( mNo ) on delete cascade ,
@@ -73,15 +76,44 @@ create table create_acc(
     foreign key ( mNo ) references member ( mNo ) on delete cascade
 );
 
-insert into member ( mId , mPw , mName , mPhone , mEmail ) values ( 'admin' , 'admin' ,  '관리자' , '01012345678' , 'admin@naver.com' );
 
 
-select * from member;
-select * from coinlist;
-select * from buy;
-select * from sell;
-select * from account ;
-select * from create_acc;
+drop table if exists coinmarketP ;
+create table coinmarketP(
+	CMNo int auto_increment primary key,
+    CIPrice int not null,
+    CMprice int not null,
+    CMRemaining int not null,
+    CMDate datetime default now(),
+    cNo int,
+    foreign key ( cNo ) references coinlist ( cNo ) on delete cascade
+);
 
+drop table if exists coinTradeList;
+create table coinTradeList(
+	CTNo int auto_increment primary key,
+    CTPrice int not null,
+    CTVolume int not null,
+    CTDate datetime default now(),
+    Buystate char(1),
+    Sellstate char(1) default null,
+    cNo int,
+    mNo int,
+    foreign key ( cNo ) references coinlist ( cNo ) on delete cascade,
+    foreign key ( mNo ) references member ( mNo ) on delete cascade
+);
 
+drop table if exists personal_coinlist;
+create table personal_coinlist(
+	pcNo int auto_increment primary key,
+    pcAmount int not null,
+    pcSumPrice int not null,
+    mno int,
+    cno int,
+    foreign key ( mno ) references member ( mno ) on delete cascade,
+    foreign key ( cno ) references coinlist ( cno ) on delete cascade
+);
 
+insert into member ( mId , mPw , mName , mPhone , mEmail , mstate ) values ( 'admin' , 'admin' ,  '관리자' , '00000000000' , 'admin@admin' , true);
+
+select * from coinmarketP;
