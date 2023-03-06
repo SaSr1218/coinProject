@@ -58,16 +58,16 @@ public class Mypage {
 		
 		boolean result = Pcontroller.getInstance().deposit( Mcontroller.getInstance().getLogSession() , inMoney , 은행accNo ,accBalance );
 		if ( result ) { 
-			Pcontroller.getInstance().deposit(Mcontroller.getInstance().getLogSession() , inMoney , 은행accNo ,accBalance );
+
+			System.out.println("[거래성공]" + 은행accNo + "번 계좌에 입금 완료되었습니다.");}
 			
-			System.out.println("[거래성공]" + 은행accNo + "번 계좌에서 계좌입금 완료되었습니다.");}
 		else { System.out.println("[거래실패] 계좌입금 실패하였습니다.");}
 	}
 	
 	// 1.3 계좌출금
 	public void withdarw() { // if 출금 금액이 계좌금액보다 크다면 실패하고 "계좌에 있는 금액 이하를 입력해주세요."
 		
-		System.out.println("입금할 계좌 No를 입력해주세요."); int 은행accNo = scanner.nextInt();
+		System.out.println("출금할 계좌 No를 입력해주세요."); int 은행accNo = scanner.nextInt();
 		System.out.println("출금할 금액을 입력해주세요."); int outMoney = scanner.nextInt();
 		
 		int accBalance = Pcontroller.getInstance().getaccBalance(Mcontroller.getInstance().getLogSession() );
@@ -75,7 +75,7 @@ public class Mypage {
 		boolean result = Pcontroller.getInstance().withdraw(Mcontroller.getInstance().getLogSession(), outMoney, 은행accNo , accBalance);
 		if ( result ) { 
 			
-			System.out.println("[거래성공]" + 은행accNo + "번 계좌에서 계좌출금 완료되었습니다.");}
+			System.out.println("[거래성공]" + 은행accNo + "번 계좌에 출금 완료되었습니다.");}
 
 		else { System.out.println("[거래실패] 계좌출금 실패하였습니다.");}
 	}

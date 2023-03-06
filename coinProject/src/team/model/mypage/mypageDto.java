@@ -24,9 +24,6 @@ public class mypageDto {
 		this.accNo = accNo;
 	}
 
-	
-
-
 	public mypageDto( int accNo ,String mName, String accName, String accountNo, int accBalance) {
 		super();
 		this.accNo = accNo;
@@ -35,8 +32,6 @@ public class mypageDto {
 		this.accountNo = accountNo;
 		this.accBalance = accBalance;
 	}
-
-
 
 	public int getaNo() {
 		return aNo;

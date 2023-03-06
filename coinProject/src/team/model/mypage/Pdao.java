@@ -2,6 +2,8 @@ package team.model.mypage;
 
 import java.util.ArrayList;
 
+import team.controller.Mcontroller;
+import team.controller.Pcontroller;
 import team.model.Dao;
 
 public class Pdao extends Dao{
@@ -41,7 +43,7 @@ public class Pdao extends Dao{
 	// 2. 계좌입금
 	public boolean deposit( int mNo , int adeposit , int accNo , int accBalance   ) { 
 		String sql1 = "insert into account ( mNo , adeposit ) values ( ? , ? )";
-		String sql2 = "update create_acc set accBalance = ( accBalance + ?/2 ) where accNo = ? and mNo = ? ";
+		String sql2 = "update create_acc set accBalance = ( accBalance + ? ) where accNo = ? and mNo = ? ";
 		
 		try {
 			ps = con.prepareStatement(sql1);
@@ -65,7 +67,7 @@ public class Pdao extends Dao{
 	
 	// 2.1 입금계좌 찾기
 	public int getaccBalance( int mNo ) {
-		String sql = "select * from account accBalance where mNo = ? ";
+		String sql = "select * from create_acc accBalance where mNo = ? ";
 		
 		try {
 			ps = con.prepareStatement(sql);
@@ -95,6 +97,14 @@ public class Pdao extends Dao{
 		String sql1 = "insert into account ( mNo , withdraw ) values ( ? , ? )"; 
 		String sql2 = "update create_acc set accBalance = (accBalance - ?) where accNo = ? and mNo =?";
 		
+		// 출금 금액이 입금 금액 초과 불가하게 유효성 검사
+		int max_withdraw =  Pcontroller.getInstance().getaccBalance(Mcontroller.getInstance().getLogSession());
+		if ( Pcontroller.getInstance().getaccBalance(Mcontroller.getInstance().getLogSession()) - withdraw < 0 ) {
+			System.out.println("[거래실패] 출금 가능한 금액을 초과했습니다.");
+			System.out.println("최대 출금 금액 : " + max_withdraw );
+			return false;
+		}
+		
 		try {
 			ps = con.prepareStatement(sql1);
 			
@@ -109,6 +119,7 @@ public class Pdao extends Dao{
 			
 			ps.executeUpdate();
 
+			
 			return true;
 		}catch (Exception e) { System.out.println("DB 오류 : " + e);}
 		return false;
