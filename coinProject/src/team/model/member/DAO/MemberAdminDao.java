@@ -46,7 +46,7 @@ public class MemberAdminDao extends Dao {
 	// 6-3. 코인 등록 처리
 	public int regiCoin( CoinDto cDto ) {
 			
-		String sql = "insert into coinlist( cName, cPrice, cAmount, cFirstprice ) values( ?, ?, ?, ? )";
+		String sql = "insert into coinlist( cName, cPrice, cAmount ) values( ?, ?, ? )";
 			
 		try {
 			ps = con.prepareStatement(sql);
@@ -54,7 +54,6 @@ public class MemberAdminDao extends Dao {
 			ps.setString(1, cDto.getcName());
 			ps.setInt(2, cDto.getcPrice());
 			ps.setInt(3, cDto.getcAmount());
-			ps.setInt(4, cDto.getcFirstprice());
 			ps.executeUpdate();
 			Sdao.getInstance().copy();
 			return 1;
