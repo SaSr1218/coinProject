@@ -2,6 +2,7 @@ package team.model.selling;
 
 import java.util.ArrayList;
 
+import team.controller.Mcontroller;
 import team.model.Dao;
 
 public class Sdao extends Dao {
@@ -178,7 +179,7 @@ public class Sdao extends Dao {
 		
 	public boolean sell_coin( int ctprice , int ctvolume , int cno , int mno ) {
 		
-		String sql = "insert into cointradelist ( ctprice , ctvolume , sellstate , cno , mno ) values ( ? , ? , ? , ? , ? )";
+		String sql = "insert into cointradelist ( ctprice , ctvolume , sellstate , cno , mno ) values ( ? , -? , ? , ? , ? )";
 		
 		try {
 			
@@ -258,6 +259,30 @@ public class Sdao extends Dao {
 			
 		}catch (Exception e) {
 			System.out.println("카피에러 : " + e);
+		}
+		
+		copy2();
+		
+	}
+	
+	
+	public void copy2() {
+		
+		int mno = Mcontroller.getInstance().getLogSession();
+		
+		String sql = "insert into cointradelist ( ctprice , ctvolume , sellstate , cno , mno ) "
+				+ " values ( (select cprice from coinlist order by cNo desc limit 1) , 0 , 'S' , (select cno from coinlist order by cno desc limit 1) , ? )";
+		
+		try {
+			
+			ps = con.prepareStatement(sql);
+			
+			ps.setInt(1, mno);
+			
+			ps.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 		
 	}
