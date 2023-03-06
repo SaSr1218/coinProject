@@ -2,6 +2,8 @@ package team.controller;
 
 import java.util.ArrayList;
 
+import team.model.mypage.Pdao;
+import team.model.mypage.mypageDto;
 import team.model.selling.Sdao;
 import team.model.selling.sellingDto;
 
@@ -19,11 +21,39 @@ public class Scontroller {
 	}
 	
 	public boolean buy_coin( int ctprice , int ctvolume , int cno , int mno ) {
+	
+		sellingDto dto = Sdao.getInstance().getCoinInfo(cno, mno);
+		
+		if( dto.getCmremaining() <= 0 && dto.getCmremaining() < ctvolume ) {
+			return false;
+		}
+		
 		return Sdao.getInstance().buy_coin(ctprice, ctvolume, cno, mno);
 	}
 	
+	public boolean checkAccount( int mno ) {
+		ArrayList<mypageDto> acc = Pdao.getInstance().checkAccount(mno);
+		
+		if( acc == null ) {
+			return false;
+		}
+		return true;
+	}
+	
 	public boolean sell_coin( int ctprice , int ctvolume , int cno , int mno ) {
+		
+		sellingDto dto = Sdao.getInstance().getCoinInfo(cno, mno);
+		
+		
+		if( dto.getPcamount() < ctvolume ) {
+			return false;
+		}
+		
 		return Sdao.getInstance().sell_coin(ctprice, ctvolume, cno, mno);
+	}
+	
+	public ArrayList<sellingDto> get_personalInfo( int mNo ) {
+		return Sdao.getInstance().get_personalInfo(mNo);
 	}
 	
 	public void copy() {
