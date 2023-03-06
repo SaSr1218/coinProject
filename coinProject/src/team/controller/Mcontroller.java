@@ -71,7 +71,7 @@ public class Mcontroller {
 		
 		if( result == 2 ) { return 2; }
 		else if( result == 3 ) { return 3;}
-		CoinDto cDto = new CoinDto(0, cName, cPrice, cAmount, cFirstprice);
+		CoinDto cDto = new CoinDto(0, cName, cPrice, cAmount);
 		return MemberAdminDao.getInstance().regiCoin(cDto);
 	}
 	
