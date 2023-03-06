@@ -123,8 +123,8 @@ public class Sdao extends Dao {
 	public void personal_portfolio( int mno , int ctvolume , int ctprice , int cno ) {
 		
 		String sql = "insert into personal_coinlist ( pcno , pcAmount , pcsumprice , cno , mno ) values (  ? , ? , ? , ? , ? )"
-				+ " on duplicate key update pcamount = (select sum(ctvolume) from cointradelist where sellstate is null), "
-				+ " pcsumprice = (select sum(ctprice * ctvolume) from cointradelist where mno = ? and cno = ? and sellstate is null )/pcamount ;";
+				+ " on duplicate key update pcamount = (select sum(ctvolume) from cointradelist where mno = ?), "
+				+ " pcsumprice = (select sum(ctprice * ctvolume) from cointradelist where mno = ? and cno = ?)/pcamount";
 		
 		try {
 			
@@ -136,7 +136,8 @@ public class Sdao extends Dao {
 			ps.setInt(4, cno);
 			ps.setInt(5, mno);
 			ps.setInt(6, mno);
-			ps.setInt(7, cno);
+			ps.setInt(7, mno);
+			ps.setInt(8, cno);
 			
 			ps.executeUpdate();
 			
