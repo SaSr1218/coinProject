@@ -3,6 +3,7 @@ package team.controller;
 import java.util.ArrayList;
 
 import team.model.coinlist.Cdao;
+import team.model.coinlist.CoinmarketPDto;
 import team.model.coinlist.coinlistDto;
 
 public class Ccontroller {
@@ -11,9 +12,10 @@ public class Ccontroller {
 	private Ccontroller() {}
 	public static Ccontroller getInstance() {return ccontroller;}
 	
-	public ArrayList<coinlistDto> print_coin() {
+	public ArrayList<CoinmarketPDto> print_coin() {
 		return Cdao.getInstance().print_coin();
 	}
+	
 	
 		
 }
