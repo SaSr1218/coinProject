@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import team.model.Dao;
 import team.model.member.DTO.CoinDto;
 import team.model.member.DTO.MemberDto;
+import team.model.selling.Sdao;
 
 public class MemberAdminDao extends Dao {
 
@@ -55,7 +56,7 @@ public class MemberAdminDao extends Dao {
 			ps.setInt(3, cDto.getcAmount());
 			ps.setInt(4, cDto.getcFirstprice());
 			ps.executeUpdate();
-		
+			Sdao.getInstance().copy();
 			return 1;
 		} catch( Exception e ) { System.out.println("예외 발생:" + e ); }
 			

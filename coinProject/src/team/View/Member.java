@@ -98,7 +98,7 @@ public class Member {
 			int choice = scanner.nextInt();
 			
 			if( choice == 1 ) { MemberAccount.getInstance().createAcc(); }
-			else if( choice == 2 ) { Selling.getInstance().index(1);  } 
+			else if( choice == 2 ) { CoinPrint.getInstance().index();  } 
 			else if( choice == 3 ) { Mypage.getInstance().mypage(); } 
 			else if( choice == 4 ) { 
 				Mcontroller.getInstance().setLogSession(0);
@@ -116,7 +116,7 @@ public class Member {
 			int choice = scanner.nextInt();
 			
 			if( choice == 1 ) { MemberAccount.getInstance().createAcc(); }
-			else if( choice == 2 ) { Selling.getInstance().index(1); } 
+			else if( choice == 2 ) { CoinPrint.getInstance().index(); } 
 			else if( choice == 3 ) { Mypage.getInstance().mypage(); } 
 			else if( choice == 4 ) { 
 				Mcontroller.getInstance().setLogSession(0);

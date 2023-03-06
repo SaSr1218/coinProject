@@ -247,7 +247,7 @@ public class Sdao extends Dao {
 		
 		String sql = "insert into coinmarketp ( ciprice , cmprice , cmremaining , cno ) values ("
 				+ " (select cprice from coinlist order by cNo desc limit 1),"
-				+ " 0,"
+				+ " (select cprice from coinlist order by cNo desc limit 1),"
 				+ " (select camount from coinlist order by cNo desc limit 1),"
 				+ " (select cno from coinlist order by cno desc limit 1));";
 		
