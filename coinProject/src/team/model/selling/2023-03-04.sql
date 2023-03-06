@@ -56,6 +56,8 @@ create table account(
     aAcount int  ,									-- 계좌번호
     aBalance int not null,							-- 잔고
     aAmount int not null,							-- 잔여갯수
+    adeposit int ,									-- 입금금액
+    withdraw int ,									-- 출금금액
     mNo int,										-- 멤버 고유번호
     cNo int,										-- 코인 고유번호
     foreign key ( mNo ) references member ( mNo ) on delete cascade ,
