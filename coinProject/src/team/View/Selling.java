@@ -67,7 +67,7 @@ public class Selling implements Color {
 				dto.getCmprice() , ctvolume, cNo, Mcontroller.getInstance().getLogSession() );
 		
 		if( result ) { System.out.println("매수가 완료되었습니다. 매수가격 : " + df.format(dto.getCmprice() ) );}
-		System.out.println(RED + "잔여 수량 이상 구매할 수 없습니다" + RESET );
+		else{ System.out.println(RED + "잔여 수량 이상 구매할 수 없습니다" + RESET ); }
 		
 		System.out.println( ctvolume + "개 매수가 완료되었습니다.");
 		
@@ -81,8 +81,19 @@ public class Selling implements Color {
 		System.out.print("매도할 갯수를 입력해주세요 : ");
 		int ctvolume = scanner.nextInt();
 		
+		
+		System.out.print("( -1: 시장가) 매도할 가격을 입력해주세요 : ");
+		int price = scanner.nextInt();
+		int cmprice = 0;
+		if( price == -1 ) {
+			cmprice = dto.getCmprice();
+		}else {
+			cmprice = price;
+		}
+		
+		
 		boolean result = Scontroller.getInstance().sell_coin(
-				dto.getCmprice() , ctvolume, cNo, Mcontroller.getInstance().getLogSession());
+				cmprice , ctvolume, cNo, Mcontroller.getInstance().getLogSession());
 		
 		if( result ) { System.out.println("매도가 완료되었습니다. 매도가격 : " + df.format(dto.getCmprice() ) );}
 		
