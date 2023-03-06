@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 import team.controller.Mcontroller;
 import team.controller.Pcontroller;
-import team.model.member.DTO.AccountDto;
 import team.model.mypage.mypageDto;
 
 public class Mypage {
@@ -41,9 +40,9 @@ public class Mypage {
 		ArrayList<mypageDto> list = Pcontroller.getInstance().checkAccount(Mcontroller.getInstance().getLogSession() );
 		
 		System.out.println("============== 계좌 정보 ===============");
-		System.out.println("계좌명 \t 계좌번호 \t \t 계좌잔고 \t 코인잔여개수");
+		System.out.printf("%5s \t %5s \t %5s \t %5s \n" , "계좌명" , "거래은행" , "계좌번호" , "계좌잔고");
 		for ( mypageDto dto : list ) {
-			System.out.println( dto.getmName() + "\t" + dto.getAccountNo() + "\t" + dto.getAccBalance() );
+			System.out.printf( "%5s \t %5s \t %20s \t %5s \n" , dto.getmName() , dto.getAccName(), dto.getAccountNo() ,  dto.getaBalance()  );
 		}
 		
 	}
@@ -56,8 +55,8 @@ public class Mypage {
 		if ( result ) { 
 			Pcontroller.getInstance().deposit(Mcontroller.getInstance().getLogSession(), aBalance , inMoney);
 			
-			System.out.println("계좌입금 완료되었습니다.");}
-		else { System.out.println("계좌입금 실패하였습니다.");}
+			System.out.println("[거래성공] 계좌입금 완료되었습니다.");}
+		else { System.out.println("[거래실패] 계좌입금 실패하였습니다.");}
 	}
 	
 	// 1.3 계좌출금
@@ -67,9 +66,9 @@ public class Mypage {
 				
 		boolean result = Pcontroller.getInstance().withdraw(Mcontroller.getInstance().getLogSession() , aBalance , outMoney);
 		
-		if ( result ) { System.out.println("[거래성공]계좌출금 완료되었습니다.");}
+		if ( result ) { System.out.println("[거래성공] 계좌출금 완료되었습니다.");}
 
-		else { System.out.println("[거래실패]계좌출금 실패하였습니다.");}
+		else { System.out.println("[거래실패] 계좌출금 실패하였습니다.");}
 	}
 	
 	// 1.4 뒤로가기
