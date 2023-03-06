@@ -40,9 +40,9 @@ public class Mypage {
 		ArrayList<mypageDto> list = Pcontroller.getInstance().checkAccount(Mcontroller.getInstance().getLogSession() );
 		
 		System.out.println("============== 계좌 정보 ===============");
-		System.out.printf("%5s \t %5s \t %5s \t %5s \n" , "계좌명" , "거래은행" , "계좌번호" , "계좌잔고");
+		System.out.printf("%5s \t %5s \t %5s \t %3s \n" , "계좌명" , "거래은행" , "계좌번호" , "계좌잔고");
 		for ( mypageDto dto : list ) {
-			System.out.printf( "%5s \t %5s \t %20s \t %5s \n" , dto.getmName() , dto.getAccName(), dto.getAccountNo() ,  dto.getaBalance()  );
+			System.out.printf( "%5s \t %5s \t %18s \t %4s \n" , dto.getmName() , dto.getAccName(), dto.getAccountNo() ,  dto.getaBalance()  );
 		}
 		
 	}
