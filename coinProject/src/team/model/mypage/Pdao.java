@@ -32,9 +32,8 @@ public class Pdao extends Dao{
 				mypageDto dto = new mypageDto( rs.getInt(1) , rs.getString(2) , rs.getString(3) , rs.getString(4) , rs.getInt(5) ); 
 				
 				list.add(dto);
-				return list;
+				
 			}
-			
 			
 		}catch (Exception e) {System.out.println("DB 에러 : " + e ) ;}
 		return list;
