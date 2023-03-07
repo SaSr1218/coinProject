@@ -14,8 +14,6 @@ public class Coinlist extends Thread implements Color{
 	private Coinlist() {}
 	public static Coinlist getInstance() {return coinlist;}
 	
-	private Scanner sc = new Scanner(System.in);
-	
 	boolean stop = false;
 	
 	public boolean isStop() {
