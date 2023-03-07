@@ -93,11 +93,9 @@ public class Selling implements Color {
 								"[ 보유잔고 : " + check + " ]");
 			System.out.print("매수할 갯수를 입력해주세요 : ");
 			int ctvolume = scanner.nextInt();
-			int accbalance = check;
+			int accbalance = check - (dto.getCmprice()*ctvolume) ;
 			
-			if( accbalance < check && check > 0 ) {
-				
-				accbalance = check - (dto.getCmprice()*ctvolume) ;
+			if( accbalance > check) {
 				
 				Scontroller.getInstance().myBalance_update(mno, accNo, accbalance);
 				
