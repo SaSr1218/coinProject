@@ -80,10 +80,12 @@ public class Selling implements Color {
 		
 		int check = Sdao.getInstance().myBalance(mno, accNo);
 		
-		if( check == 0 ) {
+		if( check < 0 ) {
 			System.out.println( RED + "계좌의 잔액이 부족합니다." + RESET + "[ 현재 잔고 : " + check + " ]");
 			System.out.println(CYAN + "계좌에 입금 후 거래 가능합니다." + RESET );
 		}else {
+			
+			check = Sdao.getInstance().myBalance(mno, accNo);
 			
 			sellingDto dto = Scontroller.getInstance().getCoinInfo(cNo, mno);
 			
@@ -93,11 +95,11 @@ public class Selling implements Color {
 								"[ 보유잔고 : " + check + " ]");
 			System.out.print("매수할 갯수를 입력해주세요 : ");
 			int ctvolume = scanner.nextInt();
-			int accbalance = check;
+			int accbalance = dto.getCmprice()*ctvolume ;
 			
-			if( accbalance < check && check > 0 ) {
+			if( accbalance < check ) {
 				
-				accbalance = check - (dto.getCmprice()*ctvolume) ;
+				accbalance = check - (dto.getCmprice()*ctvolume);
 				
 				Scontroller.getInstance().myBalance_update(mno, accNo, accbalance);
 				
@@ -113,8 +115,6 @@ public class Selling implements Color {
 				System.out.println(RED + "잔액이 부족합니다. 금액을 입금해주세요!!" + RESET );
 				return;
 			}
-			
-			
 			
 		}
 	}
