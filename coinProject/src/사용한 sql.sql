@@ -89,11 +89,3 @@ create table personal_coinlist(
 insert into member ( mId , mPw , mName , mPhone , mEmail , mstate ) values ( 'admin' , 'admin' ,  '관리자' , '00000000000' , 'admin@admin' , true);
 insert into member ( mId , mPw , mName , mPhone , mEmail , mstate ) values ( 'qwert' , 'qwert' ,  'qwert' , '01112345600' , 'qwert@qwert' , true);
 insert into member ( mId , mPw , mName , mPhone , mEmail , mstate ) values ( 'asdfg' , 'asdfg' ,  'asdfg' , '01112345200' , 'asdfg@asdfg' , true);
-
-insert into coinlist ( cName , cPrice , cAmount ) values ( '비트코인' , 200000 , 10000 );
-insert into coinlist ( cName , cPrice , cAmount ) values ( '리플' , 2000 , 100000 );
-insert into coinlist ( cName , cPrice , cAmount ) values ( '유벤투스' , 5000 , 5000 );
-
-insert into coinmarketP ( CIPrice , CMprice , CMRemaining , cNo ) values ( 200000 , 200000 , 10000 , 1 );
-insert into coinmarketP ( CIPrice , CMprice , CMRemaining , cNo ) values ( 2000 , 2000 , 100000 , 2 );
-insert into coinmarketP ( CIPrice , CMprice , CMRemaining , cNo ) values ( 5000 , 5000 , 5000 , 3 );
