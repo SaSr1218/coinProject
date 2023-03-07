@@ -189,7 +189,7 @@ public sellingDto getCoinInfo( int cNo , int mNo ) {
 		
 		String sql = "insert into personal_coinlist ( pcno , pcAmount , pcsumprice , cno , mno ) values (  ? , ? , ? , ? , ? )"
 				+ " on duplicate key update pcamount = (select sum(ctvolume) from cointradelist where mno = ? and cno = ?), "
-				+ " pcsumprice = (select average from cointradelist where cno = 1 and mno =3 order by ctdate desc limit 1)";
+				+ " pcsumprice = (select average from cointradelist where cno = ? and mno = ? order by ctdate desc limit 1)";
 		
 		String pcno = mno + "_" + cno;
 				
@@ -204,6 +204,8 @@ public sellingDto getCoinInfo( int cNo , int mNo ) {
 			ps.setInt(5, mno);
 			ps.setInt(6, mno);
 			ps.setInt(7, cno);
+			ps.setInt(8, cno);
+			ps.setInt(9, mno);
 			
 			ps.executeUpdate();
 			

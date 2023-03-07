@@ -24,21 +24,6 @@ create table coinlist(
     cFirstprice int  						-- 코인 초기가격
 );
 
-drop table if exists account;
-create table account(							
-	aNo int auto_increment primary key,				-- account 고유번호
-    aName int  ,									-- 계좌멤버 이름
-    aAcount int  ,									-- 계좌번호
-    aBalance int ,									-- 잔고
-    aAmount int ,									-- 잔여갯수
-    adeposit int ,									-- 입금금액
-    withdraw int ,									-- 출금금액
-    mNo int,										-- 멤버 고유번호
-    cNo int,										-- 코인 고유번호
-    foreign key ( mNo ) references member ( mNo ) on delete cascade ,
-    foreign key ( cNo ) references coinlist ( cNo )  on delete cascade
-);
-
 drop table if exists create_acc;
 create table create_acc(
 	accNo int auto_increment primary key,
@@ -48,6 +33,19 @@ create table create_acc(
     mNo int,
     foreign key ( mNo ) references member ( mNo ) on delete cascade
 );
+
+drop table if exists account;
+create table account(							
+	aNo int auto_increment primary key,				-- account 고유번호
+    adeposit int ,									-- 입금금액
+    withdraw int ,									-- 출금금액
+    mNo int,										-- 멤버 고유번호
+    accNo int,										-- 코인 고유번호
+    foreign key ( mNo ) references member ( mNo ) on delete cascade ,
+    foreign key ( accNo ) references create_acc ( accNo )  on delete cascade
+);
+
+
 
 
 
@@ -93,7 +91,6 @@ create table personal_coinlist(
 insert into member ( mId , mPw , mName , mPhone , mEmail , mstate ) values ( 'admin' , 'admin' ,  '관리자' , '00000000000' , 'admin@admin' , true);
 insert into member ( mId , mPw , mName , mPhone , mEmail , mstate ) values ( 'qwert' , 'qwert' ,  'qwert' , '01112345600' , 'qwert@qwert' , true);
 insert into member ( mId , mPw , mName , mPhone , mEmail , mstate ) values ( 'asdfg' , 'asdfg' ,  'asdfg' , '01112345200' , 'asdfg@asdfg' , true);
-
 
 
 

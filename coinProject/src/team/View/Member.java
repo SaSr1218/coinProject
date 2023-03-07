@@ -18,7 +18,7 @@ public class Member {
 	public void index() {
 		while(true) {
 			System.out.println("-------------------EZ 코인 거래소-------------------");
-			System.out.print("[메뉴] 1.회원가임 2.로그인 3.아이디찾기 4.비밀번호찾기 5.계정활성");
+			System.out.print("[메뉴] 1.회원가입 2.로그인 3.아이디찾기 4.비밀번호찾기 5.계정활성");
 			try{
 			int choice = scanner.nextInt();
 			
