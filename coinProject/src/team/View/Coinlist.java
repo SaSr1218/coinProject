@@ -14,7 +14,7 @@ public class Coinlist extends Thread implements Color{
 	private Coinlist() {}
 	public static Coinlist getInstance() {return coinlist;}
 	
-	boolean stop = false;
+	private boolean stop = false;
 	
 	public boolean isStop() {
 		return stop;
@@ -33,11 +33,11 @@ public class Coinlist extends Thread implements Color{
 				for(int i=0;i<result.size();i++) {
 					double profit = ((double)result.get(i).getCMprice()/(double)result.get(i).getCIPrice())*100-100;
 					profit = Math.round(profit);
-					System.out.printf("%d\t%s\t%d\t%d\t",
-							result.get(i).getcNo(),result.get(i).getcName(),result.get(i).getCMprice(),result.get(i).getCIPrice()
+					System.out.printf("%d\t%s\t%d\t%d\t%.2f",
+							result.get(i).getcNo(),result.get(i).getcName(),result.get(i).getCMprice(),
+							result.get(i).getCIPrice(),profit
 							);
-					if(profit>=0) {System.out.println(GREEN+profit+"%"+RESET);}
-					else {System.out.println(RED+profit+"%"+RESET);}
+					System.out.println("%");
 				}
 				System.out.print("뒤로가기 :0 / 코인선택 : ");
 				try {Thread.sleep(5000); }	// 5초에 한번씩 업데이트
