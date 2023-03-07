@@ -1,15 +1,35 @@
 package team.View;
 
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import team.controller.Ccontroller;
 
 public class CoinPrint {
    
-   private static CoinPrint print = new CoinPrint();
-   public static CoinPrint getInstance() {return print;}
+	private Timer timer;
+    private static CoinPrint print = new CoinPrint();
+    public static CoinPrint getInstance() {return print;}
    
-   private CoinPrint() {}
+   private CoinPrint() {
+	   timer = new Timer();
+	   timer.schedule(timerTask, 0, 60000);
+   }
+   
+   TimerTask timerTask = new TimerTask() {
+	
+	@Override
+	public void run() {
+		 Ccontroller.getInstance().refresh_coin();
+		
+	}
+};
+   
    
    Scanner sc = new Scanner(System.in);
+   
+   
    
    public void index(){
 	   Coinlist.getInstance().setStop(true);
