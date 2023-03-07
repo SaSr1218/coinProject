@@ -9,7 +9,7 @@ public class Start {
 	    Thread thread = Coinlist.getInstance();
 	    thread.start();
 	    
-	    // index 실행 메소드 호출
+	    // index 실행 메소드 호출 
 	    Index.getInstance().index();
 		
 	}
