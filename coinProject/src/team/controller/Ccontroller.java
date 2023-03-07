@@ -16,6 +16,10 @@ public class Ccontroller {
 		return Cdao.getInstance().print_coin();
 	}
 	
+	public void refresh_coin() {
+		Cdao.getInstance().refresh_coin();
+	}
+	
 	
 		
 }

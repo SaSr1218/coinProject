@@ -2,8 +2,7 @@ package team.model.coinlist;
 
 import java.util.ArrayList;
 
-import team.View.Coinlist;
-import team.controller.Mcontroller;
+
 import team.model.Dao;
 
 public class Cdao extends Dao{
@@ -36,5 +35,21 @@ public class Cdao extends Dao{
 		}catch (Exception e) {System.out.println(e);}
 		return null;
 	} // print_coin e
+	
+	public void refresh_coin() {
+		ArrayList<CoinmarketPDto> clist = print_coin();
+		for(int i=0;i<clist.size();i++) {
+			String sql = "update coinmarketp set CIPrice = ? where cNo = ? ;";
+			try {
+				ps = con.prepareStatement(sql);
+				ps.setInt(1, clist.get(i).getCMprice());
+				ps.setInt(2, clist.get(i).getcNo());
+				ps.executeUpdate();
+			}catch (Exception e) {System.out.println(e);}
+		}
+		
+		
+	}
+	
 
 }

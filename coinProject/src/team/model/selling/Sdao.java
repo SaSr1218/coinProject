@@ -2,6 +2,7 @@ package team.model.selling;
 
 import java.util.ArrayList;
 
+import team.controller.Mcontroller;
 import team.model.Dao;
 
 public class Sdao extends Dao {
@@ -13,8 +14,8 @@ public class Sdao extends Dao {
 		return sdao;
 	}
 	
-	// 코인 정보 가져오기 - 코인 상세보기페이지 , 개인 포트폴리오에 사용할 코인정보 객체화 
-	public sellingDto getCoinInfo( int cNo , int mNo ) {
+	// 코인 정보 가져오기 
+public sellingDto getCoinInfo( int cNo , int mNo ) {
 		
 		String sql = "select c.cname , p.cmprice , p.cmremaining , (select ctprice from cointradelist where cno = ? and sellstate is not null order by ctdate desc limit 1) as recent_trade, "
 					+ "pn.pcSumPrice , pn.pcAmount , (select ((p.cmprice - pn.pcsumprice)/pn.pcsumprice)*100 from coinmarketp p , personal_coinlist pn where p.cno = pn.cno and pn.cno = ?), "
@@ -71,16 +72,32 @@ public class Sdao extends Dao {
 	// 거래테이블에 내역 인서트
 	public boolean buy_coin( int ctprice , int ctvolume , int cno , int mno ) {
 		
-		String sql = "insert into cointradelist ( ctprice , ctvolume , buystate , cno , mno ) values ( ? , ? , ? , ? , ? )";
+		String sql = "insert into cointradelist ( ctprice , ctvolume , tamount , average , buystate , cno , mno )"
+					+ " values ( ? , ? , ? , ? , 'B' , ? , ? )";
+		
+		int tamount = now_amount( cno , mno );
+		int average = now_avr( cno , mno );
+		
+		if( average == 0 && ctprice == 0) {
+			average = ctprice ;
+			tamount = ctvolume ;
+		}else {
+			average = ((ctprice*ctvolume)+(average*tamount));
+			tamount += ctvolume;
+			average = average/tamount;
+		}
+		
 		
 		try {
 			ps = con.prepareStatement(sql);
 			
 			ps.setInt(1, ctprice);
 			ps.setInt(2, ctvolume);
-			ps.setString(3, "B");
-			ps.setInt(4, cno);
-			ps.setInt(5, mno);
+			ps.setInt(3, tamount);
+			ps.setInt(4, average);
+			ps.setInt(5, cno);
+			ps.setInt(6, mno);
+			
 			
 			ps.executeUpdate();
 			
@@ -95,6 +112,55 @@ public class Sdao extends Dao {
 		}
 		
 		return false;
+	}
+	
+	// 현재보유 평단가 함수
+	public int now_avr( int cno , int mno ) {
+		
+		String sql = "select average from cointradelist "
+				+ " where cno = ? and mno = ? and buystate is not null order by ctdate desc limit 1";
+		
+		try {
+			
+			ps = con.prepareStatement(sql);
+			
+			ps.setInt(1, cno);
+			ps.setInt(2, mno);
+			
+			rs = ps.executeQuery();
+			
+			if( rs.next() ) { return rs.getInt(1); }
+			else { return 0; } 
+			
+		}catch (Exception e) {
+			System.out.println("현재보유 평단가 : " + e );
+		}
+		
+		return 0 ;
+	}
+	
+	// 현재보유 코인 개수 가져오기
+	public int now_amount( int cno , int mno ) {
+		
+		String sql = "select tamount from cointradelist "
+				+ " where cno = ? and mno = ? order by ctdate desc limit 1";
+		
+		try {
+			
+			ps = con.prepareStatement(sql);
+			
+			ps.setInt(1, cno);
+			ps.setInt(2, mno);
+			
+			rs = ps.executeQuery();
+			
+			if( rs.next() ) { return rs.getInt(1); }
+			else { return 0; }
+			
+		}catch (Exception e) {
+			System.out.println(e);
+		}
+		return 0 ;
 	}
 	
 	
@@ -122,20 +188,24 @@ public class Sdao extends Dao {
 	public void personal_portfolio( int mno , int ctvolume , int ctprice , int cno ) {
 		
 		String sql = "insert into personal_coinlist ( pcno , pcAmount , pcsumprice , cno , mno ) values (  ? , ? , ? , ? , ? )"
-				+ " on duplicate key update pcamount = (select sum(ctvolume) from cointradelist where sellstate is null), "
-				+ " pcsumprice = (select sum(ctprice * ctvolume) from cointradelist where mno = ? and cno = ? and sellstate is null )/pcamount ;";
+				+ " on duplicate key update pcamount = (select sum(ctvolume) from cointradelist where mno = ? and cno = ?), "
+				+ " pcsumprice = (select average from cointradelist where cno = ? and mno = ? order by ctdate desc limit 1)";
 		
+		String pcno = mno + "_" + cno;
+				
 		try {
 			
 			ps = con.prepareStatement(sql);
 			
-			ps.setInt(1, mno);
+			ps.setString(1, pcno);
 			ps.setInt(2, ctvolume);
 			ps.setInt(3, ctprice);
 			ps.setInt(4, cno);
 			ps.setInt(5, mno);
 			ps.setInt(6, mno);
 			ps.setInt(7, cno);
+			ps.setInt(8, cno);
+			ps.setInt(9, mno);
 			
 			ps.executeUpdate();
 			
@@ -144,6 +214,30 @@ public class Sdao extends Dao {
 		}
 	}
 	
+	// pcno 찾기
+	/*
+	public int pcnoFind( int mno , int cno ) {
+		
+		String sql = "select pcno from personal_coinlist where cno = ? and mno = ?";
+		
+		try {
+			
+			ps = con.prepareStatement(sql);
+			
+			ps.setInt(1, mno);
+			ps.setInt(2, cno);
+			
+			rs = ps.executeQuery();
+			
+			if( rs.next() ) { return rs.getInt(1); }
+			else { return 0; }
+			
+		}catch (Exception e) {
+			System.out.println(e);
+		}
+		return 0 ;
+	}
+	*/
 	
 	// 평단가 업데이트
 	public void CMPriceUpdate( int cno ) {
@@ -178,7 +272,11 @@ public class Sdao extends Dao {
 		
 	public boolean sell_coin( int ctprice , int ctvolume , int cno , int mno ) {
 		
-		String sql = "insert into cointradelist ( ctprice , ctvolume , sellstate , cno , mno ) values ( ? , ? , ? , ? , ? )";
+		String sql = "insert into cointradelist ( ctprice , ctvolume , tamount , average , sellstate , cno , mno )"
+					+ "values ( ? , -? , ? , ? , 'S' , ? , ? );";
+		
+		int tamount = now_amount( cno , mno ) - ctvolume ;
+		int average = now_avr( cno , mno );
 		
 		try {
 			
@@ -186,9 +284,10 @@ public class Sdao extends Dao {
 			
 			ps.setInt(1, ctprice);
 			ps.setInt(2, ctvolume);
-			ps.setString(3, "S");
-			ps.setInt(4, cno);
-			ps.setInt(5, mno);
+			ps.setInt(3, tamount);
+			ps.setInt(4, average);
+			ps.setInt(5, cno);
+			ps.setInt(6, mno);
 			
 			ps.executeUpdate();
 			
@@ -205,6 +304,7 @@ public class Sdao extends Dao {
 	}
 	
 	
+	
 	// ----------------------------------------------------------------------------------------
 	
 	// 개인 보유 코인 전체 가져오기
@@ -212,9 +312,11 @@ public class Sdao extends Dao {
 		
 		ArrayList<sellingDto> list = new ArrayList<>();
 		
-		String sql = "select c.cname , pn.pcsumprice , pn.pcamount , p.cmprice , ((p.cmprice - pn.pcsumprice)/pn.pcsumprice)*100"
-				+ " from coinmarketp p , personal_coinlist pn , coinlist c "
-				+ " where p.cno = pn.cno and c.cno = p.cno and pn.mno = 3";
+		String sql = "select c.cname , pn.pcsumprice , pn.pcamount , p.cmprice ,"
+				+ " pn.pcsumprice * ((p.cmprice - pn.pcsumprice)/pn.pcsumprice) * pn.pcamount,"
+				+ " ((p.cmprice - pn.pcsumprice)/pn.pcsumprice)*100"
+				+ " from coinmarketp p , personal_coinlist pn , coinlist c"
+				+ " where p.cno = pn.cno and c.cno = p.cno and pn.mno = ?";
 	
 		try {
 			
@@ -258,6 +360,30 @@ public class Sdao extends Dao {
 			
 		}catch (Exception e) {
 			System.out.println("카피에러 : " + e);
+		}
+		
+		copy2();
+		
+	}
+	
+	
+	public void copy2() {
+		
+		int mno = Mcontroller.getInstance().getLogSession();
+		
+		String sql = "insert into cointradelist ( ctprice , ctvolume , sellstate , cno , mno ) "
+				+ " values ( (select cprice from coinlist order by cNo desc limit 1) , 0 , 'S' , (select cno from coinlist order by cno desc limit 1) , ? )";
+		
+		try {
+			
+			ps = con.prepareStatement(sql);
+			
+			ps.setInt(1, mno);
+			
+			ps.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 		
 	}
