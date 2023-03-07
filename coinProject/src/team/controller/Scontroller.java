@@ -21,12 +21,14 @@ public class Scontroller {
 	}
 	
 	public boolean buy_coin( int ctprice , int ctvolume , int cno , int mno ) {
-	
+		
 		sellingDto dto = Sdao.getInstance().getCoinInfo(cno, mno);
 		
 		if( dto.getCmremaining() <= 0 && dto.getCmremaining() < ctvolume ) {
 			return false;
 		}
+		
+		
 		
 		return Sdao.getInstance().buy_coin(ctprice, ctvolume, cno, mno);
 	}
@@ -54,6 +56,11 @@ public class Scontroller {
 	
 	public ArrayList<sellingDto> get_personalInfo( int mNo ) {
 		return Sdao.getInstance().get_personalInfo(mNo);
+	}
+		
+
+	public void myBalance_update ( int mno , int accno , int accbalance ) {
+		Sdao.getInstance().myBalance_update(mno, accno, accbalance);
 	}
 	
 	public void copy() {
