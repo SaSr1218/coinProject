@@ -16,12 +16,8 @@ public class Coinlist extends Thread implements Color{
 	
 	boolean stop = false;
 	
-	public boolean isStop() {
-		return stop;
-	}
-	public void setStop(boolean stop) {
-		this.stop = stop;
-	}
+	public boolean isStop() { return stop; }
+	public void setStop(boolean stop) { this.stop = stop; }
 	
 	@Override
 	public void run() {
@@ -46,9 +42,4 @@ public class Coinlist extends Thread implements Color{
 			else {Thread.yield();}
 		} // while e
 	} // run e
-	
-	
-	
-	
-	
 } // class e

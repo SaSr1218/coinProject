@@ -6,32 +6,26 @@ import java.util.TimerTask;
 
 import team.controller.Ccontroller;
 
-public class CoinPrint {
+public class CoinPrint { // class S
    
 	private Timer timer;
     private static CoinPrint print = new CoinPrint();
     public static CoinPrint getInstance() {return print;}
    
-   private CoinPrint() {
+    private CoinPrint() {
 	   timer = new Timer();
 	   timer.schedule(timerTask, 0, 60000);
-   }
+    }
    
-   TimerTask timerTask = new TimerTask() {
+    TimerTask timerTask = new TimerTask() {
 	
 	@Override
-	public void run() {
-		 Ccontroller.getInstance().refresh_coin();
-		
-	}
+	public void run() { Ccontroller.getInstance().refresh_coin(); }
 };
    
+   Scanner sc = new Scanner(System.in);  
    
-   Scanner sc = new Scanner(System.in);
-   
-   
-   
-   public void index(){
+   public void index(){ // index S
 	   Coinlist.getInstance().setStop(true);
 	   int cno = sc.nextInt();
 	   if(cno==0) {
@@ -42,6 +36,5 @@ public class CoinPrint {
 		   Coinlist.getInstance().setStop(false);
 		   Selling.getInstance().index(cno);
 	   }
-   }
-
-}
+   } // index E
+} // class E
