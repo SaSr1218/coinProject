@@ -25,7 +25,7 @@ public class Mypage {
 			if ( ach == 1 ) { checkAccount( ); } // 계좌확인[계좌번호, 계좌잔고]
 			else if ( ach == 2 ) { deposit( ); } // 계좌입금
 			else if ( ach == 3 ) { withdarw( ); } // 계좌출금
-			else if ( ach == 4 ) { AccountBack(); }// 뒤로가기
+			else if ( ach == 4 ) { break; }// 뒤로가기
 			} catch (Exception e) {System.out.println("DB 에러 이유 : " + e);}
 		
 	
