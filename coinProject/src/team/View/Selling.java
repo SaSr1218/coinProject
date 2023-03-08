@@ -28,6 +28,7 @@ public class Selling implements Color {
 	public void index( int cNo ) {
 		
 		while( true ) {
+			ArrayList<mypageDto> list = Pdao.getInstance().checkAccount(mno);
 		
 			System.out.println("===== 내 계좌 =====");
 			System.out.println("계좌No\t\t계좌명\t\t거래은행\t\t계좌번호\t\t계좌잔고");
