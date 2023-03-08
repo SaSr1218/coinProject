@@ -28,7 +28,7 @@
 
 - 권태형 : 코인 출력 페이지 , 코인 가격 변동 
 
-- 김성봉 : 코인 매수 , 코인 매도 , 손익 계산
+- 김성봉 : 코인 매수 , 코인 매도 , 손익 계산 , 코인가격 변동
 
 - 김태호 : 회원가입 , 로그인 , 계좌 생성 , 코인 등록 , 회원 탈퇴
 
@@ -36,8 +36,7 @@
 5. mysql ER 다이어그램 구성도
 
 
-![image](https://user-images.githubusercontent.com/121651332/221510692-3332f74f-b04a-441a-88c0-9d4a7ea002ff.png)
-
+![image](https://user-images.githubusercontent.com/121651332/223365803-6f65cb96-4969-4c7f-be6c-153b5a7cee8d.png)
 
 
 
@@ -47,11 +46,13 @@
 (1) 패키지[MVC] 구조도
 
 
-![image](https://user-images.githubusercontent.com/121651332/221510968-e8ea736f-d3a7-43ce-a206-25274c7a1284.png)
-
+![image](https://user-images.githubusercontent.com/121651332/223365905-edfe586c-4cf0-431b-adca-05be380712bd.png)
 
 
 (2) 컨트롤 구조도
 
-![image](https://user-images.githubusercontent.com/121651332/221510876-7f3cbfd3-9983-4fc8-b15f-829da15b6418.png)
+![image](https://user-images.githubusercontent.com/121651332/223366021-ffbcbae9-d505-4af4-b21b-29726c16da13.png)
+
+
+7. 시연 영상 url
 

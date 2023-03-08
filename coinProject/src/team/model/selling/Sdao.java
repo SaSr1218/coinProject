@@ -183,6 +183,24 @@ public sellingDto getCoinInfo( int cNo , int mNo ) {
 		}
 	}
 	
+	public void CMRemainingUpdate_sell( int ctvolume , int cno ) {
+		
+		String sql = "update coinmarketp p , cointradelist t set p.cmremaining = ( p.cmremaining + ? ) where p.cno = ?";
+		
+		try {
+			
+			ps = con.prepareStatement(sql);
+			
+			ps.setInt(1, ctvolume);
+			ps.setInt(2, cno);
+			
+			ps.executeUpdate();
+			
+		}catch (Exception e) {
+			System.out.println("잔여수량업데이트 에러 : " + e );
+		}
+	}
+	
 	
 	// 개인 거래현황 인서트 및 업데이트
 	public void personal_portfolio( int mno , int ctvolume , int ctprice , int cno ) {
@@ -291,7 +309,7 @@ public sellingDto getCoinInfo( int cNo , int mNo ) {
 			
 			ps.executeUpdate();
 			
-			CMRemainingUpdate( ctvolume , cno );
+			CMRemainingUpdate_sell( ctvolume , cno );
 			personal_portfolio( mno , ctvolume , ctprice , cno );
 			CMPriceUpdate( cno );
 			
@@ -302,7 +320,51 @@ public sellingDto getCoinInfo( int cNo , int mNo ) {
 		}
 		return false;
 	}
+	//------------------------------------------------------------------------------
 	
+	// 계좌 잔고 불러오기
+	public int myBalance( int mno , int accno ) {
+		
+		String sql = "select accBalance from create_acc where mno = ? and accno = ?";
+		
+		try {
+			
+			ps = con.prepareStatement(sql);
+			
+			ps.setInt(1, mno);
+			ps.setInt(2, accno);
+			
+			rs = ps.executeQuery();
+			
+			if( rs.next() ) { return rs.getInt(1); }
+			else { return 0 ;}
+			
+			
+		}catch (Exception e) {
+			System.out.println(e);
+		}
+		return 0 ;
+	}
+	
+	// 계좌잔고 업데이트하기
+	public void myBalance_update ( int mno , int accno , int accbalance ) {
+		
+		String sql = "update create_acc set accbalance = ? where mno = ? and accno = ?";
+		
+		try {
+			
+			ps = con.prepareStatement(sql);
+			
+			ps.setInt(1, accbalance);
+			ps.setInt(2, mno);
+			ps.setInt(3, accno);
+			
+			ps.executeUpdate();
+			
+		}catch (Exception e) {
+			System.out.println(e);
+		}
+	}
 	
 	
 	// ----------------------------------------------------------------------------------------

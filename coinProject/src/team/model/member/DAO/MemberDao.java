@@ -50,7 +50,7 @@ public class MemberDao extends Dao{
 		return 3;
 	}
 	
-	// 2. 로그임
+	// 2. 로그인
 	public int login( String mId, String mPw ){
 		
 		String sql = "select * from member where mId = ? and mPw = ?";
