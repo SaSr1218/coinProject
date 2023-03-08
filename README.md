@@ -56,3 +56,5 @@
 
 7. 시연 영상 url
 
+
+https://youtu.be/qgni5PXgHgU
