@@ -19,7 +19,5 @@ public class Ccontroller {
 	public void refresh_coin() {
 		Cdao.getInstance().refresh_coin();
 	}
-	
-	
 		
 }
